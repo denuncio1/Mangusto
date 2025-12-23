@@ -5,7 +5,8 @@ import { cn } from "@/lib/utils";
 import {
   ClipboardList, ListChecks, FolderOpen, HeartPulse, Calculator, GraduationCap,
   BellRing, LayoutDashboard, FileText, Link, Sparkles, Scale, Target, Users, History,
-  ListPlus, FlaskConical, ShieldAlert, ChevronDown, ClipboardType, TrendingUp, CheckCircle
+  ListPlus, FlaskConical, ShieldAlert, ChevronDown, ClipboardType, TrendingUp, CheckCircle,
+  FileSignature, ScanText, Share2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -63,6 +64,23 @@ const navItems = [
     title: "Gestão de Documentos Digitais",
     href: "/document-management",
     icon: FolderOpen,
+    children: [
+      {
+        title: "Emissão e Certificado Digital",
+        href: "/document-management/digital-certificate-emission",
+        icon: FileSignature,
+      },
+      {
+        title: "Digitalização Segura (NR-1.6)",
+        href: "/document-management/secure-digitization",
+        icon: ScanText,
+      },
+      {
+        title: "Compartilhamento com Entidades",
+        href: "/document-management/share-with-entities",
+        icon: Share2,
+      },
+    ],
   },
   {
     title: "Módulo de Avaliação Psicossocial",

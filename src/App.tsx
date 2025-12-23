@@ -34,6 +34,11 @@ import PreventionMeasures from "@/pages/IntegratedActionPlan/PreventionMeasures.
 import AutomaticPrioritization from "@/pages/IntegratedActionPlan/AutomaticPrioritization.tsx";
 import ActionMonitoring from "@/pages/IntegratedActionPlan/ActionMonitoring.tsx";
 
+// Import new sub-pages for Document Management
+import DigitalCertificateEmission from "./pages/DocumentManagement/DigitalCertificateEmission.tsx";
+import SecureDigitization from "./pages/DocumentManagement/SecureDigitization.tsx";
+import ShareWithEntities from "./pages/DocumentManagement/ShareWithEntities.tsx";
+
 
 const queryClient = new QueryClient();
 
@@ -56,6 +61,9 @@ const App = () => (
             <Route path="/integrated-action-plan/automatic-prioritization" element={<AutomaticPrioritization />} />
             <Route path="/integrated-action-plan/action-monitoring" element={<ActionMonitoring />} />
             <Route path="/document-management" element={<DocumentManagement />} />
+            <Route path="/document-management/digital-certificate-emission" element={<DigitalCertificateEmission />} />
+            <Route path="/document-management/secure-digitization" element={<SecureDigitization />} />
+            <Route path="/document-management/share-with-entities" element={<ShareWithEntities />} />
             <Route path="/psychosocial-assessment" element={<PsychosocialAssessment />} />
             <Route path="/risk-classification-simulator" element={<RiskClassificationSimulator />} />
             <Route path="/training-awareness" element={<TrainingAwareness />} />
