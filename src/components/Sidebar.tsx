@@ -4,7 +4,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import {
   ClipboardList, ListChecks, FolderOpen, HeartPulse, Calculator, GraduationCap,
-  BellRing, LayoutDashboard, FileText, Link, Sparkles, Scale, Target, Users, History
+  BellRing, LayoutDashboard, FileText, Link, Sparkles, Scale, Target, Users, History,
+  ListPlus, FlaskConical, ShieldAlert
 } from "lucide-react";
 
 const navItems = [
@@ -17,6 +18,23 @@ const navItems = [
     title: "Inventário de Riscos Ocupacionais",
     href: "/occupational-risk-inventory",
     icon: ClipboardList,
+    children: [
+      {
+        title: "Cadastro de Perigos e Riscos",
+        href: "/occupational-risk-inventory/hazard-risk-registration",
+        icon: ListPlus,
+      },
+      {
+        title: "Inclusão de Agentes de Risco",
+        href: "/occupational-risk-inventory/risk-agents",
+        icon: FlaskConical,
+      },
+      {
+        title: "Classificação de Risco (NR-1)",
+        href: "/occupational-risk-inventory/risk-classification",
+        icon: ShieldAlert,
+      },
+    ],
   },
   {
     title: "Plano de Ação Integrado",
@@ -94,21 +112,43 @@ export const Sidebar = () => {
         </h2>
         <div className="space-y-1">
           {navItems.map((item) => (
-            <NavLink
-              key={item.href}
-              to={item.href}
-              className={({ isActive }) =>
-                cn(
-                  "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                  isActive
-                    ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                    : "text-sidebar-foreground"
-                )
-              }
-            >
-              <item.icon className="h-4 w-4" />
-              {item.title}
-            </NavLink>
+            <React.Fragment key={item.href}>
+              <NavLink
+                to={item.href}
+                className={({ isActive }) =>
+                  cn(
+                    "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                    isActive
+                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                      : "text-sidebar-foreground"
+                  )
+                }
+              >
+                {item.icon && <item.icon className="h-4 w-4" />}
+                {item.title}
+              </NavLink>
+              {item.children && (
+                <div className="ml-6 space-y-1"> {/* Indent children */}
+                  {item.children.map((child) => (
+                    <NavLink
+                      key={child.href}
+                      to={child.href}
+                      className={({ isActive }) =>
+                        cn(
+                          "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                          isActive
+                            ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                            : "text-sidebar-foreground"
+                        )
+                      }
+                    >
+                      {child.icon && <child.icon className="h-4 w-4" />}
+                      {child.title}
+                    </NavLink>
+                  ))}
+                </div>
+              )}
+            </React.Fragment>
           ))}
         </div>
       </div>

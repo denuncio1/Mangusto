@@ -24,6 +24,11 @@ import PsychosocialFocus from "./pages/PsychosocialFocus";
 import CIPAIntegration from "./pages/CIPAIntegration";
 import UpdateHistory from "./pages/UpdateHistory";
 
+// Import new sub-pages for Occupational Risk Inventory
+import HazardRiskRegistration from "@/pages/OccupationalRiskInventory/HazardRiskRegistration.tsx";
+import RiskAgents from "@/pages/OccupationalRiskInventory/RiskAgents.tsx";
+import RiskClassification from "@/pages/OccupationalRiskInventory/RiskClassification.tsx";
+
 
 const queryClient = new QueryClient();
 
@@ -38,6 +43,9 @@ const App = () => (
             <Route index element={<Index />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/occupational-risk-inventory" element={<OccupationalRiskInventory />} />
+            <Route path="/occupational-risk-inventory/hazard-risk-registration" element={<HazardRiskRegistration />} />
+            <Route path="/occupational-risk-inventory/risk-agents" element={<RiskAgents />} />
+            <Route path="/occupational-risk-inventory/risk-classification" element={<RiskClassification />} />
             <Route path="/integrated-action-plan" element={<IntegratedActionPlan />} />
             <Route path="/document-management" element={<DocumentManagement />} />
             <Route path="/psychosocial-assessment" element={<PsychosocialAssessment />} />
