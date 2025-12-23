@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import {
   ClipboardList, ListChecks, FolderOpen, HeartPulse, Calculator, GraduationCap,
   BellRing, LayoutDashboard, FileText, Link, Sparkles, Scale, Target, Users, History,
-  ListPlus, FlaskConical, ShieldAlert
+  ListPlus, FlaskConical, ShieldAlert, ChevronDown
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const navItems = [
   {
@@ -104,6 +105,15 @@ const navItems = [
 ];
 
 export const Sidebar = () => {
+  const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
+
+  const toggleOpen = (href: string) => {
+    setOpenItems((prev) => ({
+      ...prev,
+      [href]: !prev[href],
+    }));
+  };
+
   return (
     <ScrollArea className="h-full py-4">
       <div className="px-3 py-2">
@@ -113,22 +123,40 @@ export const Sidebar = () => {
         <div className="space-y-1">
           {navItems.map((item) => (
             <React.Fragment key={item.href}>
-              <NavLink
-                to={item.href}
-                className={({ isActive }) =>
-                  cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                    isActive
-                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                      : "text-sidebar-foreground"
-                  )
-                }
-              >
-                {item.icon && <item.icon className="h-4 w-4" />}
-                {item.title}
-              </NavLink>
-              {item.children && (
-                <div className="ml-6 space-y-1"> {/* Indent children */}
+              <div className="flex items-center justify-between">
+                <NavLink
+                  to={item.href}
+                  className={({ isActive }) =>
+                    cn(
+                      "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex-grow",
+                      isActive
+                        ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                        : "text-sidebar-foreground"
+                    )
+                  }
+                  onClick={(e) => {
+                    if (item.children) {
+                      e.preventDefault(); // Previne a navegação direta se houver subitens
+                      toggleOpen(item.href); // Alterna a visibilidade dos subitens
+                    }
+                  }}
+                >
+                  {item.icon && <item.icon className="h-4 w-4" />}
+                  {item.title}
+                </NavLink>
+                {item.children && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={() => toggleOpen(item.href)}
+                  >
+                    <ChevronDown className={cn("h-4 w-4 transition-transform", openItems[item.href] && "rotate-180")} />
+                  </Button>
+                )}
+              </div>
+              {openItems[item.href] && item.children && (
+                <div className="ml-6 space-y-1">
                   {item.children.map((child) => (
                     <NavLink
                       key={child.href}
