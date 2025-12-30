@@ -1,9 +1,11 @@
 import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { BackToMenuButton } from "@/components/BackToMenuButton";
 
 const OccupationalRiskInventory = () => {
   return (
     <div className="space-y-8">
+      <BackToMenuButton className="mb-4" />
       <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-50">Inventário de Riscos Ocupacionais</h1>
       <Card>
         <CardHeader>

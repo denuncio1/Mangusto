@@ -1,3 +1,4 @@
+// ...existing code...
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -12,6 +13,17 @@ import {
 import { Button } from "@/components/ui/button";
 
 const navItems = [
+// Removido do menu principal: Capacitações EAD/Semipresencial (NR-01)
+  {
+    title: "Glossário NR-01",
+    href: "/glossario-nr01",
+    icon: BookOpenText,
+  },
+  {
+    title: "Perfil da Empresa",
+    href: "/company-profile",
+    icon: Scale,
+  },
   {
     title: "Dashboard Gerencial",
     href: "/dashboard",
@@ -22,6 +34,11 @@ const navItems = [
     href: "/occupational-risk-inventory",
     icon: ClipboardList,
     children: [
+      {
+        title: "Levantamento Preliminar de Perigos",
+        href: "/occupational-risk-inventory/preliminary-hazard-assessment",
+        icon: SearchCheck,
+      },
       {
         title: "Cadastro de Perigos e Riscos",
         href: "/occupational-risk-inventory/hazard-risk-registration",
@@ -89,11 +106,6 @@ const navItems = [
     icon: HeartPulse,
     children: [
       {
-        title: "Coleta de Percepção (NR-1.5.3.3)",
-        href: "/psychosocial-assessment/perception-tools",
-        icon: SearchCheck,
-      },
-      {
         title: "Questionários e Análise",
         href: "/psychosocial-assessment/questionnaires-analysis",
         icon: FileQuestion,
@@ -102,6 +114,11 @@ const navItems = [
         title: "Relatórios Integrados",
         href: "/psychosocial-assessment/integrated-reports",
         icon: BarChart3,
+      },
+      {
+        title: "Foco em Riscos Psicossociais",
+        href: "/psychosocial-assessment/psychosocial-focus",
+        icon: Target,
       },
     ],
   },
@@ -127,6 +144,11 @@ const navItems = [
     href: "/training-awareness",
     icon: GraduationCap,
     children: [
+      {
+        title: "EAD/Semipresencial (NR-01)",
+        href: "/ead-trainings",
+        icon: GraduationCap,
+      },
       {
         title: "Trilhas de Treinamento",
         href: "/training-awareness/training-tracks",
@@ -164,15 +186,28 @@ const navItems = [
     href: "/legal-compliance",
     icon: Scale,
   },
-  {
-    title: "Foco em riscos psicossociais",
-    href: "/psychosocial-focus",
-    icon: Target,
-  },
+  // Removido: Foco em riscos psicossociais do menu principal
   {
     title: "Integração com CIPA e trabalhadores",
     href: "/cipa-integration",
     icon: Users,
+    children: [
+      {
+        title: "Canal de Consulta e Participação (NR-1, 1.5.3.3)",
+        href: "/cipa-integration/consultation-participation-channel",
+        icon: SearchCheck,
+      },
+      {
+        title: "Prevenção ao Assédio (NR-1, 1.4.1.1)",
+        href: "/cipa-integration/harassment-prevention",
+        icon: ShieldAlert,
+      },
+    ],
+  },
+  {
+    title: "Ordens de Serviço de SST",
+    href: "/service-orders",
+    icon: FileText,
   },
   {
     title: "Histórico de atualizações por 20 anos",
@@ -213,8 +248,8 @@ export const Sidebar = () => {
                   }
                   onClick={(e) => {
                     if (item.children) {
-                      e.preventDefault(); // Previne a navegação direta se houver subitens
-                      toggleOpen(item.href); // Alterna a visibilidade dos subitens
+                      e.preventDefault();
+                      toggleOpen(item.href);
                     }
                   }}
                 >
@@ -228,7 +263,7 @@ export const Sidebar = () => {
                     className="h-8 w-8"
                     onClick={() => toggleOpen(item.href)}
                   >
-                    <ChevronDown className={cn("h-4 w-4 transition-transform", openItems[item.href] && "rotate-180")} />
+                    <ChevronDown className={cn("h-4 w-4 transition-transform", openItems[item.href] && "rotate-180")}/>
                   </Button>
                 )}
               </div>
