@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import PsychosocialQuestionnaire from "@/components/PsychosocialQuestionnaire";
 import { BackToMenuButton } from "@/components/BackToMenuButton";
 import QuestionnaireAnalysis from "@/components/QuestionnaireAnalysis";
-import { fullQuestionnaireData } from "@/lib/questionnaireData"; // Importando questionário ampliado
+import { questionnaireData } from "@/lib/questionnaireData"; // Importando questionário ampliado
+import QuestionnaireQRCode from "@/components/QuestionnaireQRCode";
 
 const PsychosocialAssessment = () => {
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -31,7 +32,7 @@ const PsychosocialAssessment = () => {
     let weightedTotal = 0;
     let weightedCount = 0;
 
-    fullQuestionnaireData.forEach(factor => {
+    questionnaireData.forEach(factor => {
       const weight = FACTOR_WEIGHTS[factor.id] || 1;
       factorScores[factor.id] = { total: 0, count: 0, weight };
       factor.questions.forEach(question => {
@@ -49,7 +50,7 @@ const PsychosocialAssessment = () => {
 
     // Análise de alertas automáticos para respostas sensíveis
     const sensitiveAlerts: string[] = [];
-    fullQuestionnaireData.forEach(factor => {
+    questionnaireData.forEach(factor => {
       factor.questions.forEach(question => {
         if (SENSITIVE_QUESTIONS.includes(question.id)) {
           const answerValue = parseInt(answers[question.id], 10);
@@ -79,7 +80,7 @@ const PsychosocialAssessment = () => {
     };
 
     const calculatedAnalysis = Object.keys(factorScores).map(factorId => {
-      const factorInfo = fullQuestionnaireData.find(f => f.id === factorId);
+      const factorInfo = questionnaireData.find(f => f.id === factorId);
       const score = factorScores[factorId].count > 0 
         ? factorScores[factorId].total / factorScores[factorId].count 
         : 0;
@@ -98,12 +99,39 @@ const PsychosocialAssessment = () => {
       sensitiveAlerts,
       weightedAverage: weightedCount > 0 ? (weightedTotal / weightedCount) : 0,
     });
+
+    // --- Automação: Envio para Inventário de Riscos e Plano de Ação ---
+    // Simulação: salvar no localStorage (substitua por API/backend conforme necessário)
+    const riscosParaInventario = calculatedAnalysis.map(f => ({
+      riskName: f.factor,
+      description: `Pontuação: ${f.score.toFixed(1)} / 100. Nível: ${f.riskLevel}.`,
+      impact: f.recommendation,
+      identifiedBy: 'Automático - Questionário Psicossocial',
+      dateIdentified: new Date().toISOString().slice(0, 10)
+    }));
+    const planoDeAcao = calculatedAnalysis.map(f => ({
+      actionName: `Ação para ${f.factor}`,
+      description: f.recommendation,
+      responsible: '',
+      dueDate: '',
+      status: 'Pendente'
+    }));
+    // Salva no localStorage (pode ser trocado por API/backend)
+    localStorage.setItem('psychosocial_risks_inventory', JSON.stringify(riscosParaInventario));
+    localStorage.setItem('psychosocial_action_plan', JSON.stringify(planoDeAcao));
+    // Fim da automação
   };
+
+  // URL pública do questionário (ajuste conforme necessário para produção)
+  const questionnaireUrl = typeof window !== "undefined"
+    ? window.location.origin + "/psychosocial-assessment"
+    : "https://seusite.com/psychosocial-assessment";
 
   return (
     <div className="space-y-8">
       <BackToMenuButton className="mb-4" />
       <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-50">Módulo de Avaliação Psicossocial</h1>
+      <QuestionnaireQRCode url={questionnaireUrl} />
       <PsychosocialQuestionnaire 
         answers={answers}
         onAnswerChange={handleAnswerChange}
