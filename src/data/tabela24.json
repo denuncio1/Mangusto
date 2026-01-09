@@ -1,0 +1,44 @@
+[
+  {
+    "codigo": "01.01.001",
+    "agente": "Ruído",
+    "tipo": "Físico",
+    "descricao": "Ruído contínuo ou intermitente",
+    "nr": "NR-15"
+  },
+  {
+    "codigo": "01.01.002",
+    "agente": "Calor",
+    "tipo": "Físico",
+    "descricao": "Calor excessivo",
+    "nr": "NR-15"
+  },
+  {
+    "codigo": "01.01.003",
+    "agente": "Radiações Ionizantes",
+    "tipo": "Físico",
+    "descricao": "Exposição a radiações ionizantes",
+    "nr": "NR-32"
+  },
+  {
+    "codigo": "01.02.001",
+    "agente": "Benzeno",
+    "tipo": "Químico",
+    "descricao": "Exposição a benzeno",
+    "nr": "NR-09"
+  },
+  {
+    "codigo": "01.03.001",
+    "agente": "Bactérias",
+    "tipo": "Biológico",
+    "descricao": "Exposição a bactérias patogênicas",
+    "nr": "NR-32"
+  },
+  {
+    "codigo": "01.04.001",
+    "agente": "Postura inadequada",
+    "tipo": "Ergonômico",
+    "descricao": "Postura inadequada no trabalho",
+    "nr": "NR-17"
+  }
+]

@@ -5,12 +5,105 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { insertOccupationalRiskAgent, fetchOccupationalRiskAgents, updateOccupationalRiskAgent, deleteOccupationalRiskAgent } from "@/lib/supabaseRiskAgents";
+import { mapearCodigoTabela24 } from "@/utils/tabela24Mapper";
 
 const RiskAgents = () => {
-  const handleSubmit = (e: React.FormEvent) => {
+  const [riskAgents, setRiskAgents] = React.useState<any[]>([]);
+  const [loadingAgents, setLoadingAgents] = React.useState(false);
+  const [editingId, setEditingId] = React.useState<number|null>(null);
+  const [editFields, setEditFields] = React.useState<any>({});
+
+  // Buscar agentes cadastrados ao carregar
+  React.useEffect(() => {
+    async function fetchAgents() {
+      setLoadingAgents(true);
+      try {
+        const data = await fetchOccupationalRiskAgents();
+        setRiskAgents(data || []);
+      } catch (err) {
+        toast.error("Erro ao buscar agentes cadastrados: " + (err.message || err));
+      }
+      setLoadingAgents(false);
+    }
+    fetchAgents();
+  }, []);
+
+  // Atualizar lista após cadastro/edição/exclusão
+  async function refreshAgents() {
+    setLoadingAgents(true);
+    try {
+      const data = await fetchOccupationalRiskAgents();
+      setRiskAgents(data || []);
+    } catch {}
+    setLoadingAgents(false);
+    setEditingId(null);
+    setEditFields({});
+  }
+
+  // Editar agente
+  function startEditAgent(agent: any) {
+    setEditingId(agent.id);
+    setEditFields({
+      agente: agent.agente,
+      tipo: agent.tipo,
+      descricao: agent.descricao,
+      codigo_tabela24: agent.codigo_tabela24
+    });
+  }
+
+  async function saveEditAgent(id: number) {
+    try {
+      await updateOccupationalRiskAgent(id, editFields);
+      toast.success("Agente atualizado!");
+      await refreshAgents();
+    } catch (err) {
+      toast.error("Erro ao atualizar: " + (err.message || err));
+    }
+  }
+
+  async function handleDeleteAgent(id: number) {
+    if (!window.confirm("Tem certeza que deseja excluir este agente?")) return;
+    try {
+      await deleteOccupationalRiskAgent(id);
+      toast.success("Agente excluído!");
+      await refreshAgents();
+    } catch (err) {
+      toast.error("Erro ao excluir: " + (err.message || err));
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Agente de risco incluído com sucesso!");
-    // Lógica para salvar os dados
+    if (!agentName || !agentType || !source) {
+      toast.error("Preencha todos os campos obrigatórios.");
+      return;
+    }
+    try {
+      const codigo_tabela24 = mapearCodigoTabela24(agentName);
+      await insertOccupationalRiskAgent({
+        codigo_tabela24: codigo_tabela24 || "",
+        agente: agentName,
+        tipo: agentType,
+        descricao: source,
+        nr: "",
+        setor: "",
+        epi: "",
+        ca_epi: "",
+        epc: "",
+        intensidade: "",
+        tecnica_avaliacao: "",
+        data_avaliacao: null,
+        responsavel_avaliacao: ""
+      });
+      toast.success("Agente de risco incluído com sucesso no Supabase!");
+      setAgentName("");
+      setAgentType("");
+      setSource("");
+      await refreshAgents();
+    } catch (err) {
+      toast.error("Erro ao salvar no Supabase: " + (err.message || err));
+    }
   };
 
   // Mock: opções iniciais (em app real, buscar do banco)
@@ -112,6 +205,69 @@ const RiskAgents = () => {
                 </div>
               </div>
             </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Listagem dos agentes cadastrados */}
+      <Card className="w-full max-w-4xl mx-auto mt-8">
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold">Agentes de Risco Cadastrados</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {loadingAgents ? (
+            <div>Carregando...</div>
+          ) : riskAgents.length === 0 ? (
+            <div className="text-gray-500">Nenhum agente cadastrado.</div>
+          ) : (
+            <table className="min-w-full text-xs border">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="border px-2 py-1">Nome</th>
+                  <th className="border px-2 py-1">Tipo</th>
+                  <th className="border px-2 py-1">Fonte/Descrição</th>
+                  <th className="border px-2 py-1">Código Tabela 24</th>
+                  <th className="border px-2 py-1">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {riskAgents.map((ag) => (
+                  <tr key={ag.id}>
+                    {editingId === ag.id ? (
+                      <>
+                        <td className="border px-2 py-1">
+                          <input value={editFields.agente} onChange={e => setEditFields(f => ({ ...f, agente: e.target.value }))} className="input input-xs" />
+                        </td>
+                        <td className="border px-2 py-1">
+                          <input value={editFields.tipo} onChange={e => setEditFields(f => ({ ...f, tipo: e.target.value }))} className="input input-xs" />
+                        </td>
+                        <td className="border px-2 py-1">
+                          <input value={editFields.descricao} onChange={e => setEditFields(f => ({ ...f, descricao: e.target.value }))} className="input input-xs" />
+                        </td>
+                        <td className="border px-2 py-1">
+                          <input value={editFields.codigo_tabela24} onChange={e => setEditFields(f => ({ ...f, codigo_tabela24: e.target.value }))} className="input input-xs" />
+                        </td>
+                        <td className="border px-2 py-1 flex gap-1">
+                          <button className="btn btn-xs btn-success" onClick={() => saveEditAgent(ag.id)}>Salvar</button>
+                          <button className="btn btn-xs btn-ghost" onClick={() => { setEditingId(null); setEditFields({}); }}>Cancelar</button>
+                        </td>
+                      </>
+                    ) : (
+                      <>
+                        <td className="border px-2 py-1">{ag.agente}</td>
+                        <td className="border px-2 py-1">{ag.tipo}</td>
+                        <td className="border px-2 py-1">{ag.descricao}</td>
+                        <td className="border px-2 py-1">{ag.codigo_tabela24}</td>
+                        <td className="border px-2 py-1 flex gap-1">
+                          <button className="btn btn-xs btn-primary" onClick={() => startEditAgent(ag)}>Editar</button>
+                          <button className="btn btn-xs btn-error" onClick={() => handleDeleteAgent(ag.id)}>Excluir</button>
+                        </td>
+                      </>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
         </CardContent>
       </Card>

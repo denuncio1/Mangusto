@@ -65,6 +65,9 @@ export default function EADTrainingList({ onScrollToForm }: { onScrollToForm?: (
               <div><b>Atividades Práticas:</b> {t.atividades_praticas}</div>
               <div><b>Certificado:</b> {t.certificado ? <a href={t.certificado} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Ver Certificado</a> : <span className="text-red-700">Pendente</span>}</div>
               <div><b>Requisitos Legais:</b> {t.requisitos_legais ? <span className="text-green-700">Conforme NR-01</span> : <span className="text-red-700">Incompleto</span>}</div>
+              <div><b>Canal de Suporte:</b> {t.canal_suporte || <span className="text-red-700">Não informado</span>}</div>
+              <div><b>Registro de Logs de Progresso:</b> {t.registro_logs_progresso ? <span className="text-green-700">Sim</span> : <span className="text-red-700">Não</span>}</div>
+              <div><b>Feedback do Aluno sobre o Suporte:</b> {t.feedback_suporte ? t.feedback_suporte : <span className="text-gray-500">Nenhum feedback registrado</span>}</div>
               <div className="mt-2">
                 <Link to={`/pedagogical-project?trainingId=${t.id}`} className="text-blue-600 underline">Ver/Editar Projeto Pedagógico</Link>
               </div>

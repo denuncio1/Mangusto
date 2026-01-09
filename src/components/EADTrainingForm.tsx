@@ -17,7 +17,10 @@ const initialState = {
   topicos: "",
   atividades_praticas: "",
   certificado: "",
-  requisitos_legais: false
+  requisitos_legais: false,
+  canal_suporte: "",
+  registro_logs_progresso: false,
+  feedback_suporte: ""
 };
 
 
@@ -111,6 +114,18 @@ const EADTrainingForm = forwardRef(function EADTrainingForm(props, ref) {
             <div className="flex items-center space-x-2">
               <input type="checkbox" id="requisitos_legais" name="requisitos_legais" checked={form.requisitos_legais} onChange={handleChange} />
               <Label htmlFor="requisitos_legais">Atende a todos os requisitos legais do Anexo II da NR-01</Label>
+            </div>
+            <div>
+              <Label htmlFor="canal_suporte">Canal de Suporte ao Aluno</Label>
+              <Input id="canal_suporte" name="canal_suporte" value={form.canal_suporte} onChange={handleChange} placeholder="Ex: suporte@empresa.com, WhatsApp, fórum, chat, etc." />
+            </div>
+            <div className="flex items-center space-x-2">
+              <input type="checkbox" id="registro_logs_progresso" name="registro_logs_progresso" checked={form.registro_logs_progresso} onChange={handleChange} />
+              <Label htmlFor="registro_logs_progresso">O sistema registra logs de progresso do aluno (não só conclusão)?</Label>
+            </div>
+            <div>
+              <Label htmlFor="feedback_suporte">Feedback do Aluno sobre o Suporte</Label>
+              <Textarea id="feedback_suporte" name="feedback_suporte" value={form.feedback_suporte} onChange={handleChange} placeholder="Espaço para registrar feedbacks recebidos dos alunos sobre o suporte." />
             </div>
             <Button type="submit" disabled={loading}>{loading ? "Salvando..." : "Salvar"}</Button>
             {saved && <div className="text-green-600 mt-2">Capacitação cadastrada com sucesso.</div>}

@@ -1,0 +1,23 @@
+name: Send Psychosocial Questionnaire
+
+on:
+  schedule:
+    - cron: '0 9 1 1,7 *' # 1º de janeiro e 1º de julho às 09:00 UTC (ajuste conforme necessário)
+  workflow_dispatch:
+
+jobs:
+  send-questionnaire:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Send questionnaire email
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          EMAIL_API_KEY: ${{ secrets.EMAIL_API_KEY }}
+        run: |
+          # Exemplo: Enviar e-mail para todos os funcionários usando uma API de e-mail
+          # Substitua pelo seu script real de envio
+          echo "Disparar questionário psicossocial para todos os funcionários"
+          # node scripts/send_psychosocial_questionnaire.js

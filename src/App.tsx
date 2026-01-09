@@ -1,3 +1,12 @@
+import ESGDashboard from "./pages/ESGDashboard";
+import ComplianceAssistantPage from "./pages/ComplianceAssistant";
+  <Route path="compliance-assistant" element={<ComplianceAssistantPage />} />
+import AccidentPredictionPage from "./pages/AccidentPrediction";
+  <Route path="accident-prediction" element={<AccidentPredictionPage />} />
+import PsychosocialReportAdminPage from "./pages/PsychosocialReportAdmin";
+import ThirdPartyExchange from "./pages/third-party/ThirdPartyExchange";
+import ThirdPartyConsolidation from "./pages/third-party/ThirdPartyConsolidation";
+import React from "react";
 import PedagogicalProjectPage from "./pages/pedagogical-project";
 import EADTrainingsPage from "./pages/ead-trainings";
 import CompanyProfile from "./components/CompanyProfile";
@@ -18,6 +27,7 @@ import NotFound from "./pages/NotFound";
 import { Login } from "./pages/Login";
 import ResetPassword from "@/pages/ResetPassword";
 import LegislacaoTextoIntegral from "./pages/LegislacaoTextoIntegral";
+import OccupationalAccidentQuickInput from "./pages/OccupationalAccidentQuickInput";
 
 // Import all pages
 import Dashboard from "./pages/Dashboard";
@@ -25,6 +35,7 @@ import OccupationalRiskInventory from "./pages/OccupationalRiskInventory";
 import IntegratedActionPlan from "./pages/IntegratedActionPlan";
 import DocumentManagement from "./pages/DocumentManagement";
 import PsychosocialAssessment from "./pages/PsychosocialAssessment";
+import PsychosocialReport from "./pages/PsychosocialReport";
 import RiskClassificationSimulator from "./pages/RiskClassificationSimulator";
 import TrainingAwareness from "./pages/TrainingAwareness";
 import EmergencyManagement from "./pages/EmergencyManagement";
@@ -48,6 +59,8 @@ import ActionMonitoring from "@/pages/IntegratedActionPlan/ActionMonitoring.tsx"
 import DigitalCertificateEmission from "@/pages/DocumentManagement/DigitalCertificateEmission.tsx";
 import SecureDigitization from "@/pages/DocumentManagement/SecureDigitization.tsx";
 import ShareWithEntities from "@/pages/DocumentManagement/ShareWithEntities.tsx";
+import OccupationalExamForm from "./pages/OccupationalExamForm";
+import OccupationalExamList from "./pages/OccupationalExamList";
 import PerceptionTools from "@/pages/PsychosocialAssessment/PerceptionTools.tsx";
 import QuestionnairesAnalysis from "@/pages/PsychosocialAssessment/QuestionnairesAnalysis.tsx";
 import IntegratedReports from "@/pages/PsychosocialAssessment/IntegratedReports.tsx";
@@ -95,7 +108,8 @@ function AppRoutes() {
       {/* Rotas para páginas públicas */}
       <Route path="/glossario-nr01" element={<GlossaryNR01 />} />
       <Route path="/company-profile" element={<CompanyProfile />} />
-      <Route path="/ead-trainings" element={<EADTrainingsPage />} />
+        <Route path="psychosocial-report" element={<PsychosocialReport />} />
+        <Route path="psychosocial-report-admin" element={<PsychosocialReportAdminPage />} />
       <Route path="/pedagogical-project" element={<PedagogicalProjectPageWrapper />} />
       <Route path="/ava-compliance" element={<AVACompliancePage />} />
 
@@ -107,9 +121,12 @@ function AppRoutes() {
       >
         <Route index element={<Dashboard />} />
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="esg-dashboard" element={<ESGDashboard />} />
         <Route path="pgr-integration" element={<PGRIntegration />} />
+        <Route path="accident-prediction" element={<AccidentPredictionPage />} />
+        <Route path="compliance-assistant" element={<ComplianceAssistantPage />} />
         <Route path="cipa-integration" element={<CIPAIntegration />} />
-        <Route path="cipa-integration/consultation-participation" element={<ConsultationParticipationChannel />} />
+        <Route path="cipa-integration/consultation-participation-channel" element={<ConsultationParticipationChannel />} />
         <Route path="occupational-risk-inventory" element={<OccupationalRiskInventory />} />
         <Route path="occupational-risk-inventory/hazard-risk-registration" element={<HazardRiskRegistration />} />
         <Route path="occupational-risk-inventory/preliminary-hazard-assessment" element={<PreliminaryHazardAssessment />} />
@@ -129,6 +146,8 @@ function AppRoutes() {
         <Route path="training-awareness" element={<TrainingAwareness />} />
         <Route path="training-awareness/training-tracks" element={<TrainingTracks />} />
         <Route path="training-awareness/action-registration" element={<ActionRegistration />} />
+        <Route path="occupational-exam-form" element={<OccupationalExamForm />} />
+        <Route path="occupational-exam-list" element={<OccupationalExamList />} />
         <Route path="legal-compliance" element={<LegalCompliance />} />
         <Route path="emergency-management" element={<EmergencyManagement />} />
         <Route path="psychosocial-assessment" element={<PsychosocialAssessment />} />
@@ -141,6 +160,11 @@ function AppRoutes() {
         <Route path="update-history" element={<UpdateHistory />} />
         <Route path="service-orders" element={<ServiceOrders />} />
         <Route path="extra-features" element={<ExtraFeatures />} />
+
+        {/* Gestão de Terceiros */}
+        <Route path="third-party/ThirdPartyExchange" element={<ThirdPartyExchange />} />
+        <Route path="third-party/ThirdPartyConsolidation" element={<ThirdPartyConsolidation />} />
+        <Route path="/occupational-accident-quick-input" element={<OccupationalAccidentQuickInput />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

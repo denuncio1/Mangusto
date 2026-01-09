@@ -1,4 +1,3 @@
-// ...existing code...
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -13,7 +12,68 @@ import {
 import { Button } from "@/components/ui/button";
 
 const navItems = [
-// Removido do menu principal: Capacitações EAD/Semipresencial (NR-01)
+    {
+      title: "Comunicação de Acidente de Trabalho (S-2210)",
+      icon: ShieldAlert,
+      children: [
+        {
+          title: "Input Rápido CAT",
+          href: "/occupational-accident-quick-input",
+          icon: FileText,
+        },
+      ],
+    },
+  {
+    title: "Monitoramento da Saúde (S-2220)",
+    icon: HeartPulse,
+    children: [
+      {
+        title: "Registrar Exame Ocupacional",
+        href: "/occupational-exam-form",
+        icon: FileText,
+      },
+      {
+        title: "Exames Registrados / Exportar XML",
+        href: "/occupational-exam-list",
+        icon: FileText,
+      },
+    ],
+  },
+  {
+    title: "Predição de Acidentes (IA)",
+    href: "/accident-prediction",
+    icon: Target,
+    adminOnly: true,
+  },
+  {
+    title: "Assistente de Conformidade NR-01",
+    href: "/compliance-assistant",
+    icon: Target,
+    adminOnly: true,
+  },
+  {
+    title: "Administração de Relatos Psicossociais",
+    href: "/psychosocial-report-admin",
+    icon: Target,
+    adminOnly: true,
+  },
+  {
+    title: "Gestão de Terceiros",
+    href: "/third-party",
+    icon: Users,
+    children: [
+      {
+        title: "Intercâmbio de Inventários",
+        href: "/third-party/ThirdPartyExchange",
+        icon: Share2,
+      },
+      {
+        title: "Consolidação de Riscos",
+        href: "/third-party/ThirdPartyConsolidation",
+        icon: BarChart3,
+      },
+    ],
+  },
   {
     title: "Glossário NR-01",
     href: "/glossario-nr01",
@@ -28,6 +88,12 @@ const navItems = [
     title: "Dashboard Gerencial",
     href: "/dashboard",
     icon: LayoutDashboard,
+  },
+  {
+    title: "Dashboard ESG – Social",
+    href: "/esg-dashboard",
+    icon: BarChart3,
+    adminOnly: false,
   },
   {
     title: "Inventário de Riscos Ocupacionais",
@@ -121,6 +187,14 @@ const navItems = [
         icon: Target,
       },
     ],
+  },
+
+  // Canal de Denúncia/Sugestão Psicossocial (fixo, visível para todos)
+  {
+    title: "Canal de Denúncia/Sugestão Psicossocial",
+    href: "/psychosocial-report",
+    icon: HeartPulse,
+    adminOnly: false,
   },
   {
     title: "Simulador de Classificação de Riscos",
@@ -233,8 +307,10 @@ export const Sidebar = () => {
           Menu Principal
         </h2>
         <div className="space-y-1">
-          {navItems.map((item) => (
-            <React.Fragment key={item.href}>
+          {navItems.map((item, idx) => {
+            const itemKey = item.href || item.title || idx;
+            return (
+              <React.Fragment key={itemKey}>
               <div className="flex items-center justify-between">
                 <NavLink
                   to={item.href}
@@ -269,10 +345,12 @@ export const Sidebar = () => {
               </div>
               {openItems[item.href] && item.children && (
                 <div className="ml-6 space-y-1">
-                  {item.children.map((child) => (
-                    <NavLink
-                      key={child.href}
-                      to={child.href}
+                  {item.children.map((child, cidx) => {
+                    const childKey = child.href || child.title || `${itemKey}-child-${cidx}`;
+                    return (
+                      <NavLink
+                        key={childKey}
+                        to={child.href}
                       className={({ isActive }) =>
                         cn(
                           "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
@@ -282,14 +360,16 @@ export const Sidebar = () => {
                         )
                       }
                     >
-                      {child.icon && <child.icon className="h-4 w-4" />}
-                      {child.title}
-                    </NavLink>
-                  ))}
+                        {child.icon && <child.icon className="h-4 w-4" />}
+                        {child.title}
+                      </NavLink>
+                    );
+                  })}
                 </div>
               )}
             </React.Fragment>
-          ))}
+            );
+          })}
         </div>
       </div>
     </ScrollArea>

@@ -92,7 +92,7 @@ const Dashboard = () => {
           </CardHeader>
           <CardContent>
             <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-              <BarChart accessibilityLayer data={chartData}>
+              <BarChart data={chartData}>
                 <XAxis dataKey="month" tickLine={false} tickMargin={10} axisLine={false} />
                 <YAxis domain={[80, 100]} />
                 <ChartTooltip content={<ChartTooltipContent />} />

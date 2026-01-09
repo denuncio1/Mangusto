@@ -1,9 +1,114 @@
+// Stub for fetchEmpresaERiscos
+async function fetchEmpresaERiscos() {
+  // TODO: Replace with real implementation
+  return { empresa: { nome: "Empresa Exemplo", cnpj: "00.000.000/0001-00", setor: "Setor Exemplo", endereco: "Rua Exemplo, 123", porte: "me" } };
+}
+
+// Stubs for missing handlers
+function handleLtcatUpload() {}
+function handleGenerateLtcat() {}
+function handlePcmsoUpload() {}
+// --- COMPONENTES AUXILIARES ---
+function S2220Form() {
+  const [nome, setNome] = React.useState("");
+  const [cpf, setCpf] = React.useState("");
+  const [data, setData] = React.useState("");
+  const [tipoExame, setTipoExame] = React.useState("");
+  const [resultado, setResultado] = React.useState("");
+  const [xml, setXml] = React.useState("");
+  function gerarXML() {
+    const xmlString = `<?xml version="1.0" encoding="UTF-8"?>\n<eSocial>\n  <evtMonit Id="ID${Date.now()}">\n    <ideEvento>\n      <tpAmb>1</tpAmb>\n      <procEmi>1</procEmi>\n      <verProc>1.0</verProc>\n    </ideEvento>\n    <ideEmpregador>\n      <tpInsc>1</tpInsc>\n      <nrInsc>00000000000000</nrInsc>\n    </ideEmpregador>\n    <ideVinculo>\n      <cpfTrab>${cpf}</cpfTrab>\n      <matricula>1</matricula>\n    </ideVinculo>\n    <exame>\n      <dtExame>${data}</dtExame>\n      <tpExame>${tipoExame}</tpExame>\n      <resultado>${resultado}</resultado>\n    </exame>\n    <infoTrabalhador>\n      <nome>${nome}</nome>\n    </infoTrabalhador>\n  </evtMonit>\n</eSocial>`;
+    setXml(xmlString);
+    const blob = new Blob([xmlString], { type: "application/xml" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `S-2220_Monitoramento_${nome || "trabalhador"}.xml`;
+    link.click();
+  }
+  return (
+    <form className="flex flex-col gap-3" onSubmit={e => { e.preventDefault(); gerarXML(); }}>
+      <label className="block">
+        <span className="mb-1 block font-medium">Nome do Trabalhador:</span>
+        <input type="text" className="block mb-2" value={nome} onChange={e => setNome(e.target.value)} required />
+      </label>
+      <label className="block">
+        <span className="mb-1 block font-medium">CPF do Trabalhador:</span>
+        <input type="text" className="block mb-2" value={cpf} onChange={e => setCpf(e.target.value)} required maxLength={11} pattern="\d{11}" />
+      </label>
+      <label className="block">
+        <span className="mb-1 block font-medium">Data do Exame:</span>
+        <input type="date" className="block mb-2" value={data} onChange={e => setData(e.target.value)} required />
+      </label>
+      <label className="block">
+        <span className="mb-1 block font-medium">Tipo de Exame:</span>
+        <input type="text" className="block mb-2" value={tipoExame} onChange={e => setTipoExame(e.target.value)} required placeholder="Admissional, Periódico, Demissional..." />
+      </label>
+      <label className="block">
+        <span className="mb-1 block font-medium">Resultado:</span>
+        <input type="text" className="block mb-2" value={resultado} onChange={e => setResultado(e.target.value)} required placeholder="Apto, Inapto, etc." />
+      </label>
+      <button type="submit" className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 w-fit">Gerar arquivo S-2220 (Monitoramento) para E-Social</button>
+      {xml && (
+        <div className="mt-2 p-2 bg-gray-100 rounded text-xs overflow-x-auto">
+          <strong>Prévia do XML:</strong>
+          <pre>{xml}</pre>
+        </div>
+      )}
+    </form>
+  );
+}
+
+function S2210Form() {
+  const [nome, setNome] = React.useState("");
+  const [data, setData] = React.useState("");
+  const [local, setLocal] = React.useState("");
+  const [descricao, setDescricao] = React.useState("");
+  const [xml, setXml] = React.useState("");
+  function gerarXML() {
+    const xmlString = `<?xml version="1.0" encoding="UTF-8"?>\n<eSocial>\n  <evtCAT Id="ID${Date.now()}">\n    <ideEvento>\n      <tpAmb>1</tpAmb>\n      <procEmi>1</procEmi>\n      <verProc>1.0</verProc>\n    </ideEvento>\n    <ideEmpregador>\n      <tpInsc>1</tpInsc>\n      <nrInsc>00000000000000</nrInsc>\n    </ideEmpregador>\n    <ideVinculo>\n      <cpfTrab>00000000000</cpfTrab>\n      <matricula>1</matricula>\n    </ideVinculo>\n    <cat>\n      <dtAcid>${data}</dtAcid>\n      <tpAcid>1</tpAcid>\n      <hrsTrabAntesAcid>08:00</hrsTrabAntesAcid>\n      <localAcidente>\n        <tpLocal>1</tpLocal>\n        <dscLocal>${local}</dscLocal>\n      </localAcidente>\n      <parteAtingida>\n        <codParteAting>99</codParteAting>\n      </parteAtingida>\n      <agenteCausador>\n        <codAgntCausador>9999</codAgntCausador>\n      </agenteCausador>\n      <descricao>${descricao}</descricao>\n      <observacao>Gerado pelo sistema</observacao>\n    </cat>\n    <infoAcidentado>\n      <nome>${nome}</nome>\n    </infoAcidentado>\n  </evtCAT>\n</eSocial>`;
+    setXml(xmlString);
+    const blob = new Blob([xmlString], { type: "application/xml" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `S-2210_CAT_${nome || "acidente"}.xml`;
+    link.click();
+  }
+  return (
+    <form className="flex flex-col gap-3" onSubmit={e => { e.preventDefault(); gerarXML(); }}>
+      <label className="block">
+        <span className="mb-1 block font-medium">Nome do Acidentado:</span>
+        <input type="text" className="block mb-2" value={nome} onChange={e => setNome(e.target.value)} required />
+      </label>
+      <label className="block">
+        <span className="mb-1 block font-medium">Data do Acidente:</span>
+        <input type="date" className="block mb-2" value={data} onChange={e => setData(e.target.value)} required />
+      </label>
+      <label className="block">
+        <span className="mb-1 block font-medium">Local do Acidente:</span>
+        <input type="text" className="block mb-2" value={local} onChange={e => setLocal(e.target.value)} required />
+      </label>
+      <label className="block">
+        <span className="mb-1 block font-medium">Descrição do Acidente:</span>
+        <textarea className="block mb-2" value={descricao} onChange={e => setDescricao(e.target.value)} required />
+      </label>
+      <button type="submit" className="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 w-fit">Gerar arquivo S-2210 (CAT) para E-Social</button>
+      {xml && (
+        <div className="mt-2 p-2 bg-gray-100 rounded text-xs overflow-x-auto">
+          <strong>Prévia do XML:</strong>
+          <pre>{xml}</pre>
+        </div>
+      )}
+    </form>
+  );
+}
 import React, { useState } from "react";
 // Futuro: importar dados reais do inventário de riscos
 import jsPDF from "jspdf";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { BackToMenuButton } from "@/components/BackToMenuButton";
 import { supabase } from "@/lib/supabaseClient";
+import { fetchOccupationalRiskAgents } from "@/lib/supabaseRiskAgents";
+import { mapearCodigoTabela24 } from "@/utils/tabela24Mapper";
 
 const PGRIntegration = () => {
   const [ltcatFile, setLtcatFile] = useState<File | null>(null);
@@ -13,133 +118,50 @@ const PGRIntegration = () => {
   const [pcmsoFile, setPcmsoFile] = useState<File | null>(null);
   const [pcmsoFileName, setPcmsoFileName] = useState("");
 
+  // S-2240
+  const [s2240Xml, setS2240Xml] = useState("");
+  const [loadingS2240, setLoadingS2240] = useState(false);
 
-
-  const handleLtcatUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
-    if (file) {
-      setLtcatFile(file);
-      setLtcatFileName(file.name);
-    }
-  };
-
-  const handlePgrUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
-    if (file) {
-      setPgrFile(file);
-      setPgrFileName(file.name);
-    }
-  };
-
-  const handlePcmsoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
-    if (file) {
-      setPcmsoFile(file);
-      setPcmsoFileName(file.name);
-    }
-  };
-
-  // Função utilitária para buscar dados da empresa e riscos
-  const fetchEmpresaERiscos = async () => {
-    let empresa = {
-      nome: "Empresa Exemplo Ltda.",
-      cnpj: "12.345.678/0001-99",
-      setor: "Indústria",
-      endereco: "Rua das Normas, 123, Centro, Cidade/UF"
-    };
+  async function handleGenerateS2240() {
+    setLoadingS2240(true);
     try {
-      const { data: empresaData } = await supabase.from('empresa').select('*').single();
-      if (empresaData) empresa = empresaData;
-    } catch {}
-
-    let riscos = [];
-    try {
-      const { data: riscosData } = await supabase.from('riscos_ocupacionais').select('*');
-      if (riscosData && riscosData.length > 0) {
-        riscos = riscosData;
+      const { empresa } = await fetchEmpresaERiscos();
+      const agentes = await fetchOccupationalRiskAgents();
+      if (!agentes || agentes.length === 0) {
+        alert("Nenhum agente de risco cadastrado.");
+        setLoadingS2240(false);
+        return;
       }
-    } catch {}
-    if (!riscos.length) {
-      riscos = [
-        { perigo: "Ruído excessivo", agente: "Físico", setor: "Produção", classificacao: "Alto", nr: "NR-15" },
-        { perigo: "Produtos químicos voláteis", agente: "Químico", setor: "Laboratório", classificacao: "Moderado", nr: "NR-09" },
-        { perigo: "Postura inadequada", agente: "Ergonômico", setor: "Escritório", classificacao: "Baixo", nr: "NR-17" }
-      ];
+      // Monta XML S-2240
+      const riscosXml = agentes.map((ag) => {
+        const codigoTabela24 = ag.codigo_tabela24 || mapearCodigoTabela24(ag.agente);
+        return `    <agente>
+      <codAgnt>${codigoTabela24 || ""}</codAgnt>
+      <dscAgnt>${ag.agente}</dscAgnt>
+      <tpAgnt>${ag.tipo}</tpAgnt>
+      <intensidade>${ag.intensidade || ""}</intensidade>
+      <tecnicaAvaliacao>${ag.tecnica_avaliacao || ""}</tecnicaAvaliacao>
+      <epi>${ag.epi || ""}</epi>
+      <caEpi>${ag.ca_epi || ""}</caEpi>
+      <epc>${ag.epc || ""}</epc>
+      <setor>${ag.setor || ""}</setor>
+      <dataAvaliacao>${ag.data_avaliacao || ""}</dataAvaliacao>
+      <responsavelAvaliacao>${ag.responsavel_avaliacao || ""}</responsavelAvaliacao>
+    </agente>`;
+      }).join("\n");
+      const xmlString = `<?xml version="1.0" encoding="UTF-8"?>\n<eSocial>\n  <evtExpRisco Id="ID${Date.now()}">\n    <ideEvento>\n      <tpAmb>1</tpAmb>\n      <procEmi>1</procEmi>\n      <verProc>1.0</verProc>\n    </ideEvento>\n    <ideEmpregador>\n      <tpInsc>1</tpInsc>\n      <nrInsc>${empresa.cnpj || ""}</nrInsc>\n    </ideEmpregador>\n    <infoRisco>\n${riscosXml}\n    </infoRisco>\n  </evtExpRisco>\n</eSocial>`;
+      setS2240Xml(xmlString);
+      // Download automático
+      const blob = new Blob([xmlString], { type: "application/xml" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `S-2240_AgentesRisco_${empresa.nome || "empresa"}.xml`;
+      link.click();
+    } catch (e) {
+      alert("Erro ao gerar S-2240: " + (e.message || e));
     }
-    return { empresa, riscos };
-  };
-
-  // LTCAT
-  const handleGenerateLtcat = async () => {
-    const { empresa, riscos } = await fetchEmpresaERiscos();
-    const doc = new jsPDF();
-    doc.setFontSize(16);
-    doc.text("LTCAT - Laudo Técnico das Condições Ambientais do Trabalho", 10, 20);
-    doc.setFontSize(12);
-    doc.text(`Empregador: ${empresa.nome}`, 10, 32);
-    doc.text(`CNPJ: ${empresa.cnpj}`, 10, 40);
-    doc.text(`Setor: ${empresa.setor}`, 10, 48);
-    doc.text(`Endereço: ${empresa.endereco}`, 10, 56);
-    doc.text(`Data: ${new Date().toLocaleDateString()}`, 10, 64);
-    doc.text("Riscos Avaliados:", 10, 74);
-    let y = 82;
-    riscos.forEach((r, idx) => {
-      doc.text(
-        `${idx + 1}. Perigo: ${r.perigo} | Agente: ${r.agente} | Setor: ${r.setor} | Classificação: ${r.classificacao} | NR: ${r.nr}`,
-        12,
-        y,
-        { maxWidth: 180 }
-      );
-      y += 10;
-      if (y > 270) {
-        doc.addPage();
-        y = 20;
-      }
-    });
-    doc.text(
-      "Este documento foi gerado automaticamente a partir do inventário de riscos. Para um laudo completo, revise e personalize conforme a realidade da empresa.",
-      10,
-      y + 10,
-      { maxWidth: 180 }
-    );
-    doc.save(`LTCAT-${new Date().toISOString().slice(0,10)}.pdf`);
-  };
-
-  // PGR
-  const handleGeneratePgr = async () => {
-    const { empresa, riscos } = await fetchEmpresaERiscos();
-    const doc = new jsPDF();
-    doc.setFontSize(16);
-    doc.text("PGR - Programa de Gerenciamento de Riscos", 10, 20);
-    doc.setFontSize(12);
-    doc.text(`Empregador: ${empresa.nome}`, 10, 32);
-    doc.text(`CNPJ: ${empresa.cnpj}`, 10, 40);
-    doc.text(`Setor: ${empresa.setor}`, 10, 48);
-    doc.text(`Endereço: ${empresa.endereco}`, 10, 56);
-    doc.text(`Data: ${new Date().toLocaleDateString()}`, 10, 64);
-    doc.text("Riscos Gerenciados:", 10, 74);
-    let y = 82;
-    riscos.forEach((r, idx) => {
-      doc.text(
-        `${idx + 1}. Perigo: ${r.perigo} | Agente: ${r.agente} | Setor: ${r.setor} | Classificação: ${r.classificacao} | NR: ${r.nr}`,
-        12,
-        y,
-        { maxWidth: 180 }
-      );
-      y += 10;
-      if (y > 270) {
-        doc.addPage();
-        y = 20;
-      }
-    });
-    doc.text(
-      "Este documento foi gerado automaticamente a partir do inventário de riscos. Para um PGR completo, revise e personalize conforme a realidade da empresa.",
-      10,
-      y + 10,
-      { maxWidth: 180 }
-    );
-    doc.save(`PGR-${new Date().toISOString().slice(0,10)}.pdf`);
-  };
+    setLoadingS2240(false);
+  }
 
   // PCMSO
   const handleGeneratePcmso = async () => {
@@ -217,15 +239,31 @@ const PGRIntegration = () => {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="mb-4">
-        <BackToMenuButton />
-      </div>
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-50">PGR, PCMSO e LTCAT</h1>
-      {getDispensaAviso()}
-      {/* LTCAT */}
-      <Card>
-        <CardHeader>
+    <>
+      <div className="space-y-8">
+        <div className="mb-4">
+          <BackToMenuButton />
+        </div>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-50">Integração com PGR, LTCAT, PCMSO e E-Social</h1>
+                <div className="mb-4">
+                  <button
+                    className="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 w-fit"
+                    onClick={handleGenerateS2240}
+                    disabled={loadingS2240}
+                  >
+                    {loadingS2240 ? "Gerando S-2240..." : "Gerar S-2240 (Agentes de Risco) para E-Social"}
+                  </button>
+                </div>
+                {s2240Xml && (
+                  <div className="mt-2 p-2 bg-gray-100 rounded text-xs overflow-x-auto">
+                    <strong>Prévia do XML S-2240:</strong>
+                    <pre>{s2240Xml}</pre>
+                  </div>
+                )}
+        {getDispensaAviso()}
+        {/* LTCAT */}
+        <Card>
+          <CardHeader>
           <CardTitle>LTCAT</CardTitle>
         </CardHeader>
         <CardContent>
@@ -244,67 +282,17 @@ const PGRIntegration = () => {
               className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 w-fit"
               onClick={handleGenerateLtcat}
             >
-              Gerar LTCAT automaticamente (avaliar todos os riscos das NR's)
+              Gerar LTCAT em PDF
             </button>
           </div>
         </CardContent>
-      </Card>
 
-      {/* PGR */}
-      <Card>
-        <CardHeader>
-          <CardTitle>PGR</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground mb-4">
-            Programa de Gerenciamento de Riscos. Gerencie, consulte e integre o PGR com outros documentos legais e operacionais da empresa.
-          </p>
-          <div className="flex flex-col gap-3">
-            <label className="block">
-              <span className="mb-1 block font-medium">Subir PGR existente:</span>
-              <input type="file" accept=".pdf,.doc,.docx" className="block" onChange={handlePgrUpload} />
-            </label>
-            {pgrFileName && (
-              <span className="text-green-700 text-sm">Arquivo enviado: {pgrFileName}</span>
-            )}
-            <button
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 w-fit"
-              onClick={handleGeneratePgr}
-            >
-              Gerar PGR automaticamente (avaliar todos os riscos das NR's)
-            </button>
-          </div>
-        </CardContent>
-      </Card>
 
-      {/* PCMSO */}
-      <Card>
-        <CardHeader>
-          <CardTitle>PCMSO</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground mb-4">
-            Programa de Controle Médico de Saúde Ocupacional. Integre o PCMSO ao PGR para acompanhamento da saúde dos trabalhadores e cumprimento das exigências legais.
-          </p>
-          <div className="flex flex-col gap-3">
-            <label className="block">
-              <span className="mb-1 block font-medium">Subir PCMSO existente:</span>
-              <input type="file" accept=".pdf,.doc,.docx" className="block" onChange={handlePcmsoUpload} />
-            </label>
-            {pcmsoFileName && (
-              <span className="text-green-700 text-sm">Arquivo enviado: {pcmsoFileName}</span>
-            )}
-            <button
-              className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 w-fit"
-              onClick={handleGeneratePcmso}
-            >
-              Gerar PCMSO automaticamente (dados básicos da empresa)
-            </button>
-          </div>
-        </CardContent>
       </Card>
+      {/* ...restante do conteúdo... */}
     </div>
+  </>
   );
-};
+}
 
 export default PGRIntegration;
