@@ -34,21 +34,13 @@
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-        --sidebar-background: 166 60% 10%; /* Verde escuro mais forte */
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-        --sidebar-primary: 51 100% 50%; /* Amarelo */
-        --sidebar-accent: 197 80% 52%; /* Azul */
-        --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-background: 0 0% 100%; /* Branco */
+    --sidebar-foreground: 0 0% 10%;  /* Preto quase puro */
+    --sidebar-primary: 51 100% 50%; /* Amarelo */
+    --sidebar-primary-foreground: 0 0% 10%; /* Preto quase puro */
+    --sidebar-accent: 51 100% 90%; /* Amarelo bem claro */
+    --sidebar-accent-foreground: 0 0% 10%; /* Preto quase puro */
 
     --sidebar-ring: 217.2 91.2% 59.8%;
   }

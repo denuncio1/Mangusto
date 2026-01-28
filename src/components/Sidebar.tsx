@@ -304,6 +304,9 @@ export const Sidebar = () => {
 
   return (
     <ScrollArea className="h-full py-4">
+      <div className="flex flex-col items-center py-4">
+        <MangustoLogo className="mb-6" />
+      </div>
       <div className="px-3 py-2">
         <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight text-sidebar-foreground">
           Menu Principal
@@ -313,73 +316,67 @@ export const Sidebar = () => {
             const itemKey = item.href || item.title || idx;
             return (
               <React.Fragment key={itemKey}>
-              <div className="flex items-center justify-between">
-                <NavLink
-                  to={item.href}
-                  className={({ isActive }) =>
-                    cn(
-                      "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex-grow",
-                      isActive
-                        ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                        : "text-sidebar-foreground"
-                    )
-                  }
-                  onClick={(e) => {
-                    if (item.children) {
-                      e.preventDefault();
-                      toggleOpen(item.href);
+                <div className="flex items-center justify-between">
+                  <NavLink
+                    to={item.href}
+                    className={({ isActive }) =>
+                      cn(
+                        "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex-grow",
+                        isActive
+                          ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                          : "text-sidebar-foreground"
+                      )
                     }
-                  }}
-                >
-                  {item.icon && <item.icon className="h-4 w-4" />}
-                  {item.title}
-                </NavLink>
-                {item.children && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => toggleOpen(item.href)}
-                  >
-                    <ChevronDown className={cn("h-4 w-4 transition-transform", openItems[item.href] && "rotate-180")}/>
-                  </Button>
-                )}
-              </div>
-              {openItems[item.href] && item.children && (
-                <div className="ml-6 space-y-1">
-                  {item.children.map((child, cidx) => {
-                    const childKey = child.href || child.title || `${itemKey}-child-${cidx}`;
-                    return (
-                      <NavLink
-                        key={childKey}
-                        to={child.href}
-                      className={({ isActive }) =>
-                        cn(
-                          "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                          isActive
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                            : "text-sidebar-foreground"
-                        )
+                    onClick={(e) => {
+                      if (item.children) {
+                        e.preventDefault();
+                        toggleOpen(item.href);
                       }
+                    }}
+                  >
+                    {item.icon && <item.icon className="h-4 w-4" />}
+                    {item.title}
+                  </NavLink>
+                  {item.children && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={() => toggleOpen(item.href)}
                     >
-                        {child.icon && <child.icon className="h-4 w-4" />}
-                        {child.title}
-                      </NavLink>
-                    );
-                  })}
+                      <ChevronDown className={cn("h-4 w-4 transition-transform", openItems[item.href] && "rotate-180")}/>
+                    </Button>
+                  )}
                 </div>
-              )}
-            </React.Fragment>
+                {openItems[item.href] && item.children && (
+                  <div className="ml-6 space-y-1">
+                    {item.children.map((child, cidx) => {
+                      const childKey = child.href || child.title || `${itemKey}-child-${cidx}`;
+                      return (
+                        <NavLink
+                          key={childKey}
+                          to={child.href}
+                          className={({ isActive }) =>
+                            cn(
+                              "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                              isActive
+                                ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                                : "text-sidebar-foreground"
+                            )
+                          }
+                        >
+                          {child.icon && <child.icon className="h-4 w-4" />}
+                          {child.title}
+                        </NavLink>
+                      );
+                    })}
+                  </div>
+                )}
+              </React.Fragment>
             );
           })}
         </div>
       </div>
-    <div className="flex flex-col items-center py-4">
-      <MangustoLogo className="mb-6" />
-    </div>
-    <ScrollArea>
-      {/* ...restante do conteúdo... */}
-      <div>{/* ...existing code... */}</div>
     </ScrollArea>
   );
-};
+}
