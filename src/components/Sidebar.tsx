@@ -9,7 +9,9 @@ import {
   FileSignature, ScanText, Share2, SearchCheck, FileQuestion, BarChart3,
   Gauge, Lightbulb, BookOpenText, CalendarCheck
 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
+import MangustoLogo from "./MangustoLogo";
 
 const navItems = [
     {
@@ -372,6 +374,12 @@ export const Sidebar = () => {
           })}
         </div>
       </div>
+    <div className="flex flex-col items-center py-4">
+      <MangustoLogo className="mb-6" />
+    </div>
+    <ScrollArea>
+      {/* ...restante do conteúdo... */}
+      <div>{/* ...existing code... */}</div>
     </ScrollArea>
   );
 };
