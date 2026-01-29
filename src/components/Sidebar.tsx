@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-// import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import {
   ClipboardList, ListChecks, FolderOpen, HeartPulse, Calculator, GraduationCap,
@@ -454,6 +454,6 @@ export const Sidebar = () => {
           })}
         </div>
       </div>
-    </div>
+    </ScrollArea>
   );
 }
