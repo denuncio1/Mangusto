@@ -9,7 +9,9 @@ import {
   FileSignature, ScanText, Share2, SearchCheck, FileQuestion, BarChart3,
   Gauge, Lightbulb, BookOpenText, CalendarCheck
 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
+import MangustoLogo from "./MangustoLogo";
 
 const navItems = [
     {
@@ -378,7 +380,10 @@ export const Sidebar = () => {
   };
 
   return (
-    <div className="h-full py-4 overflow-auto">
+    <ScrollArea className="h-full py-4 overflow-auto">
+      <div className="flex flex-col items-center py-4">
+        <MangustoLogo className="mb-6" />
+      </div>
       <div className="px-3 py-2">
         <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight text-sidebar-foreground">
           Menu Principal
@@ -393,12 +398,18 @@ export const Sidebar = () => {
                     to={item.href}
                     className={({ isActive }) =>
                       cn(
-                        "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                        "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex-grow",
                         isActive
                           ? "bg-sidebar-primary text-sidebar-primary-foreground"
                           : "text-sidebar-foreground"
                       )
                     }
+                    onClick={(e) => {
+                      if (item.children) {
+                        e.preventDefault();
+                        toggleOpen(item.href);
+                      }
+                    }}
                   >
                     {item.icon && <item.icon className="h-4 w-4" />}
                     {item.title}
@@ -445,4 +456,4 @@ export const Sidebar = () => {
       </div>
     </div>
   );
-};
+}
