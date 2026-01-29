@@ -56,3 +56,23 @@ const NRPage: React.FC<NRPageProps> = ({ nrNumber }) => {
       <div className="max-w-4xl mx-auto p-6">
         <p>NR não encontrada.</p>
       </div>
+    );
+  }
+
+  // ...existing code for rendering NR content...
+
+  return (
+    <div className="max-w-4xl mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-4">{data.title}</h1>
+      {data.status === "manutencao" ? (
+        <div className="bg-yellow-100 text-yellow-800 px-4 py-2 rounded mb-4">
+          Esta NR está em manutenção. O conteúdo será disponibilizado em breve.
+        </div>
+      ) : (
+        <div>
+          {/* Conteúdo da NR disponível */}
+          <p>Conteúdo da NR {nr}.</p>
+        </div>
+      )}
+    </div>
+  );
