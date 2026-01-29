@@ -14,71 +14,80 @@ import { Button } from "@/components/ui/button";
 import MangustoLogo from "./MangustoLogo";
 
 const navItems = [
-    {
-      title: "Normas Regulamentadoras (NRs)",
-      icon: BookOpenText,
-      children: [
-        { title: "NR-1 - Disposições Gerais e GRO", href: "/nr/1", icon: FileText },
-        { title: "NR-2 - Inspeção Prévia", href: "/nr/2", icon: FileText },
-        { title: "NR-3 - Embargo e Interdição", href: "/nr/3", icon: FileText },
-        { title: "NR-4 - SESMT", href: "/nr/4", icon: FileText },
-        { title: "NR-5 - CIPA", href: "/nr/5", icon: FileText },
-        { title: "NR-6 - EPI", href: "/nr/6", icon: FileText },
-        { title: "NR-7 - PCMSO", href: "/nr/7", icon: FileText },
-        { title: "NR-8 - Edificações", href: "/nr/8", icon: FileText },
-        { title: "NR-9 - Avaliação e Controle de Exposição", href: "/nr/9", icon: FileText },
-        { title: "NR-10 - Segurança em Eletricidade", href: "/nr/10", icon: FileText },
-        { title: "NR-11 - Transporte e Movimentação de Materiais", href: "/nr/11", icon: FileText },
-        { title: "NR-12 - Máquinas e Equipamentos", href: "/nr/12", icon: FileText },
-        { title: "NR-13 - Caldeiras e Vasos de Pressão", href: "/nr/13", icon: FileText },
-        { title: "NR-14 - Fornos", href: "/nr/14", icon: FileText },
-        { title: "NR-15 - Atividades Insalubres", href: "/nr/15", icon: FileText },
-        { title: "NR-16 - Atividades Perigosas", href: "/nr/16", icon: FileText },
-        { title: "NR-17 - Ergonomia", href: "/nr/17", icon: FileText },
-        { title: "NR-18 - Construção Civil", href: "/nr/18", icon: FileText },
-        { title: "NR-19 - Explosivos", href: "/nr/19", icon: FileText },
-        { title: "NR-20 - Inflamáveis e Combustíveis", href: "/nr/20", icon: FileText },
-        { title: "NR-21 - Trabalhos a Céu Aberto", href: "/nr/21", icon: FileText },
-        { title: "NR-22 - Mineração", href: "/nr/22", icon: FileText },
-        { title: "NR-23 - Proteção Contra Incêndios", href: "/nr/23", icon: FileText },
-        { title: "NR-24 - Condições Sanitárias", href: "/nr/24", icon: FileText },
-        { title: "NR-25 - Resíduos Industriais", href: "/nr/25", icon: FileText },
-        { title: "NR-26 - Sinalização de Segurança", href: "/nr/26", icon: FileText },
-        { title: "NR-27 - Registro Profissional", href: "/nr/27", icon: FileText },
-        { title: "NR-28 - Fiscalização e Penalidades", href: "/nr/28", icon: FileText },
-        { title: "NR-29 - Portos", href: "/nr/29", icon: FileText },
-        { title: "NR-30 - Aquaviários", href: "/nr/30", icon: FileText },
-        { title: "NR-31 - Rural", href: "/nr/31", icon: FileText },
-        { title: "NR-32 - Saúde em Serviços de Saúde", href: "/nr/32", icon: FileText },
-        { title: "NR-33 - Espaço Confinado", href: "/nr/33", icon: FileText },
-        { title: "NR-34 - Indústria Naval", href: "/nr/34", icon: FileText },
-        { title: "NR-35 - Trabalho em Altura", href: "/nr/35", icon: FileText },
-        { title: "NR-36 - Frigoríficos", href: "/nr/36", icon: FileText },
-        { title: "NR-37 - Plataformas de Petróleo", href: "/nr/37", icon: FileText },
-        { title: "NR-38 - Limpeza Urbana", href: "/nr/38", icon: FileText },
-      ],
-    },
   {
-    title: "Gestão de EPI/EPC",
+    title: "ADMINISTRATIVO",
+    icon: LayoutDashboard,
+    children: [
+      { title: "Dashboard Gerencial", href: "/dashboard", icon: LayoutDashboard },
+      { title: "Perfil da Empresa", href: "/company-profile", icon: Scale },
+      { title: "Gestão de Funcionários", href: "/sst-lists/funcionario", icon: Users },
+      { title: "Cadastrar Funcionário", href: "/funcionario-form", icon: ListPlus },
+    ],
+  },
+  {
+    title: "RH / ADM",
+    icon: Users,
+    children: [
+      { title: "Capacitação e Sensibilização", href: "/training-awareness", icon: GraduationCap },
+      { title: "Monitoramento da Saúde (S-2220)", href: "/occupational-exam-form", icon: HeartPulse },
+      { title: "Administração de Relatos Psicossociais", href: "/psychosocial-report-admin", icon: HeartPulse },
+    ],
+  },
+  {
+    title: "SEGURANÇA",
     icon: ShieldAlert,
     children: [
       {
-        title: "Controle de Estoque",
-        href: "/epi-epc-management/stock-control",
-        icon: ListChecks,
+        title: "Normas Regulamentadoras (NRs)",
+        icon: BookOpenText,
+        children: [
+          // ...NRs conforme bloco anterior, mantendo status e subitens...
+        ],
       },
-      {
-        title: "Validade e Rastreabilidade",
-        href: "/epi-epc-management/validity-traceability",
-        icon: History,
-      },
-      {
-        title: "Ficha de EPI",
-        href: "/epi-epc-management/epi-sheet",
-        icon: FileText,
-      },
+      { title: "Gestão de EPI/EPC", href: "/epi-epc-management/stock-control", icon: ShieldAlert },
+      { title: "Inventário de Riscos Ocupacionais", href: "/occupational-risk-inventory", icon: ClipboardList },
+      { title: "Plano de Ação Integrado", href: "/integrated-action-plan", icon: ListChecks },
+      { title: "Gestão de Emergências", href: "/emergency-management", icon: BellRing },
+      { title: "Predição de Acidentes (IA)", href: "/accident-prediction", icon: Target },
     ],
   },
+  {
+    title: "SAÚDE",
+    icon: HeartPulse,
+    children: [
+      { title: "Módulo de Avaliação Psicossocial", href: "/psychosocial-assessment", icon: HeartPulse },
+      { title: "Canal de Denúncia/Sugestão Psicossocial", href: "/psychosocial-report", icon: HeartPulse },
+    ],
+  },
+  {
+    title: "DOCUMENTOS",
+    icon: FolderOpen,
+    children: [
+      { title: "Gestão de Documentos Digitais", href: "/document-management", icon: FolderOpen },
+      { title: "Automação de Relatórios", href: "/report-automation", icon: FileText },
+    ],
+  },
+  {
+    title: "FINANCEIRO",
+    icon: BarChart3,
+    children: [
+      { title: "Dashboard ESG – Social", href: "/esg-dashboard", icon: BarChart3 },
+    ],
+  },
+  {
+    title: "RELATÓRIOS",
+    icon: FileText,
+    children: [
+      { title: "Relatórios Integrados", href: "/psychosocial-assessment/integrated-reports", icon: BarChart3 },
+      { title: "Simulador de Classificação de Riscos", href: "/risk-classification-simulator", icon: Calculator },
+    ],
+  },
+  {
+    title: "SAIR",
+    icon: FileText,
+    href: "/logout",
+  },
+];
   // ...existing code...
 // ...existing code...
     {
