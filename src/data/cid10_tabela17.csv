@@ -1,0 +1,21 @@
+codigo;descricao
+S00;Ferimento superficial da cabeça
+S01;Ferimento aberto da cabeça
+S02;Fratura do crânio e dos ossos da face
+S03;Luxação, entorse e distensão das articulações e dos ligamentos da cabeça
+S04;Lesão de nervos cranianos
+S05;Lesão do olho e da órbita
+S06;Traumatismo intracraniano
+S07;Lesão por esmagamento da cabeça
+S08;Amputação traumática de parte da cabeça
+S09;Outros traumatismos e os não especificados da cabeça
+T00;Traumatismos superficiais envolvendo múltiplas regiões do corpo
+T01;Ferimentos abertos envolvendo múltiplas regiões do corpo
+T02;Fraturas envolvendo múltiplas regiões do corpo
+T03;Luxações, entorses e distensões envolvendo múltiplas regiões do corpo
+T04;Esmagamento envolvendo múltiplas regiões do corpo
+T05;Amputações traumáticas envolvendo múltiplas regiões do corpo
+T06;Outros traumatismos envolvendo múltiplas regiões do corpo, não classificados em outra parte
+T07;Traumatismos múltiplos não especificados
+T08;Fratura da coluna vertebral, nível não especificado
+T09;Outros traumatismos e os não especificados da coluna vertebral, do tronco e da pelve

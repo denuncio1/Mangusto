@@ -10,6 +10,38 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { fetchSectors, fetchSectorRisks } from "@/lib/supabaseSectors";
 import CidAutocomplete from "@/components/CidAutocomplete";
 
+const agentesPadrao = [
+  "Agentes Físicos",
+  "Agentes Químicos",
+  "Agentes Biológicos",
+  "Agentes Ergonômicos/Psicossociais",
+  "Agentes de Acidentes (Mecânicos/Estruturais)"
+];
+
+const cid10Options = [
+  { code: "A00", description: "Cólera" },
+  { code: "A01", description: "Febre tifóide e paratifóide" },
+  { code: "A02", description: "Outras infecções por Salmonella" },
+  { code: "A03", description: "Shiguelose" },
+  { code: "A04", description: "Outras infecções intestinais bacterianas" },
+  { code: "A05", description: "Outras intoxicações alimentares bacterianas" },
+  { code: "A06", description: "Amebíase" },
+  { code: "A07", description: "Outras doenças protozoárias intestinais" },
+  { code: "A08", description: "Infecções intestinais virais" },
+  { code: "A09", description: "Diarréia e gastroenterite de origem infecciosa presumível" },
+  { code: "B01", description: "Varicela" },
+  { code: "B05", description: "Sarampo" },
+  { code: "B15", description: "Hepatite aguda A" },
+  { code: "B16", description: "Hepatite aguda B" },
+  { code: "B17", description: "Outras hepatites virais agudas" },
+  { code: "B18", description: "Hepatite viral crônica" },
+  { code: "C00", description: "Neoplasia maligna do lábio" },
+  { code: "C16", description: "Neoplasia maligna do estômago" },
+  { code: "C34", description: "Neoplasia maligna dos brônquios e pulmão" },
+  { code: "E10", description: "Diabetes mellitus tipo 1" },
+  { code: "outros", description: "Outros" }
+];
+
 const OccupationalAccidentQuickInput = () => {
   const [cpf, setCpf] = useState("");
   const [nome, setNome] = useState("");
@@ -20,7 +52,13 @@ const OccupationalAccidentQuickInput = () => {
   const [cid, setCid] = useState("");
   const [diagnostico, setDiagnostico] = useState("");
   const [agenteCausador, setAgenteCausador] = useState("");
-  const [sugestoesAgente, setSugestoesAgente] = useState<string[]>([]);
+  const [sugestoesAgente, setSugestoesAgente] = useState<string[]>(agentesPadrao);
+  const [novoSetor, setNovoSetor] = useState("");
+  const [showNovoSetor, setShowNovoSetor] = useState(false);
+  const [novoAgente, setNovoAgente] = useState("");
+  const [showNovoAgente, setShowNovoAgente] = useState(false);
+  const [cidSelecionado, setCidSelecionado] = useState("");
+  const [isOutroCid, setIsOutroCid] = useState(false);
 
 
   // Carregar setores ao montar
@@ -35,12 +73,13 @@ const OccupationalAccidentQuickInput = () => {
         const setorObj = setores.find(s => s.nome === setor || s.id === setor);
         if (setorObj) {
           const riscos = await fetchSectorRisks(setorObj.id);
-          setSugestoesAgente((riscos || []).map(r => r.occupational_risk_agents?.agente || r.occupational_risk_agents?.nome || ""));
+          const agentes = (riscos || []).map(r => r.occupational_risk_agents?.agente || r.occupational_risk_agents?.nome || "");
+          setSugestoesAgente([...agentesPadrao, ...agentes]);
         } else {
-          setSugestoesAgente([]);
+          setSugestoesAgente(agentesPadrao);
         }
       } else {
-        setSugestoesAgente([]);
+        setSugestoesAgente(agentesPadrao);
       }
     }
     fetchPerigos();
@@ -74,9 +113,34 @@ const OccupationalAccidentQuickInput = () => {
       toast.error(inconsistencia);
       return;
     }
-    // TODO: Salvar registro do acidente (S-2210)
+    let setorId = setor;
+    let agenteFinal = agenteCausador;
+    if (setor === "outros" && novoSetor.trim()) {
+      import("@/lib/supabaseSectors").then(async mod => {
+        try {
+          const novo = { nome: novoSetor.trim() };
+          const res = await mod.insertSector(novo);
+          if (res && res[0] && res[0].id) {
+            setorId = res[0].id + '';
+            const atualizados = await mod.fetchSectors();
+            setSetores(atualizados);
+            setSetor(setorId);
+            toast.success("Novo setor cadastrado!");
+          }
+        } catch (err) {
+          toast.error("Erro ao cadastrar novo setor");
+          return;
+        }
+      });
+    }
+    if (agenteCausador === "outros" && novoAgente.trim()) {
+      agenteFinal = novoAgente.trim();
+      setSugestoesAgente(prev => [...prev, agenteFinal]);
+      toast.success("Novo agente causador cadastrado!");
+    }
+    // TODO: Salvar registro do acidente (S-2210) usando setorId e agenteFinal
     toast.success("Acidente registrado!");
-    setCpf(""); setNome(""); setSetor(""); setDataAcidente(""); setDescricao(""); setCid(""); setDiagnostico(""); setAgenteCausador("");
+    setCpf(""); setNome(""); setSetor(""); setDataAcidente(""); setDescricao(""); setCid(""); setDiagnostico(""); setAgenteCausador(""); setNovoSetor(""); setShowNovoSetor(false); setNovoAgente(""); setShowNovoAgente(false);
   }
 
   return (
@@ -97,7 +161,18 @@ const OccupationalAccidentQuickInput = () => {
             </div>
             <div className="grid gap-2">
               <Label htmlFor="setor">Setor</Label>
-              <Select value={setor} onValueChange={setSetor}>
+              <Select
+                value={setor}
+                onValueChange={value => {
+                  setSetor(value);
+                  if (value === "outros") {
+                    setShowNovoSetor(true);
+                  } else {
+                    setShowNovoSetor(false);
+                    setNovoSetor("");
+                  }
+                }}
+              >
                 <SelectTrigger id="setor">
                   <SelectValue placeholder="Selecione o setor" />
                 </SelectTrigger>
@@ -105,8 +180,15 @@ const OccupationalAccidentQuickInput = () => {
                   {setores.map(s => (
                     <SelectItem key={s.id} value={s.id+''}>{s.nome}</SelectItem>
                   ))}
+                  <SelectItem key="outros" value="outros">Outros</SelectItem>
                 </SelectContent>
               </Select>
+              {showNovoSetor && (
+                <div className="mt-2">
+                  <Label htmlFor="novoSetor">Digite o novo setor</Label>
+                  <Input id="novoSetor" value={novoSetor} onChange={e => setNovoSetor(e.target.value)} required={showNovoSetor} />
+                </div>
+              )}
             </div>
             <div className="grid gap-2">
               <Label htmlFor="dataAcidente">Data do Acidente</Label>
@@ -118,7 +200,18 @@ const OccupationalAccidentQuickInput = () => {
             </div>
             <div className="grid gap-2">
               <Label htmlFor="agenteCausador">Agente Causador</Label>
-              <Select value={agenteCausador} onValueChange={setAgenteCausador}>
+              <Select
+                value={agenteCausador}
+                onValueChange={value => {
+                  setAgenteCausador(value);
+                  if (value === "outros") {
+                    setShowNovoAgente(true);
+                  } else {
+                    setShowNovoAgente(false);
+                    setNovoAgente("");
+                  }
+                }}
+              >
                 <SelectTrigger id="agenteCausador">
                   <SelectValue placeholder="Selecione o agente causador" />
                 </SelectTrigger>
@@ -126,12 +219,22 @@ const OccupationalAccidentQuickInput = () => {
                   {sugestoesAgente.map((ag, idx) => (
                     <SelectItem key={idx} value={ag}>{ag}</SelectItem>
                   ))}
+                  <SelectItem key="outros" value="outros">Outros</SelectItem>
                 </SelectContent>
               </Select>
+              {showNovoAgente && (
+                <div className="mt-2">
+                  <Label htmlFor="novoAgente">Digite o novo agente causador</Label>
+                  <Input id="novoAgente" value={novoAgente} onChange={e => setNovoAgente(e.target.value)} required={showNovoAgente} />
+                </div>
+              )}
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="cid">CID</Label>
-              <CidAutocomplete value={cid} onChange={setCid} />
+              <Label htmlFor="cid">CID-10 (Tabela 17 eSocial)</Label>
+              <CidAutocomplete value={cid} onChange={(val, cidObj) => {
+                setCid(val);
+                if (cidObj && cidObj.descricao) setDescricao(cidObj.descricao);
+              }} />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="diagnostico">Diagnóstico Médico</Label>

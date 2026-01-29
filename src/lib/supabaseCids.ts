@@ -6,7 +6,7 @@ export async function fetchCids(query: string) {
     .from("cids")
     .select("*")
     .or(`codigo.ilike.%${query}%,descricao.ilike.%${query}%`)
-    .limit(20);
+    .limit(100);
   if (error) throw error;
   return data;
 }

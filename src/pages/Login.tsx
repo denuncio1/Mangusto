@@ -155,6 +155,14 @@ export function Login() {
           >
             Esqueceu sua senha?
           </Button>
+          <Button
+            variant="link"
+            size="sm"
+            className="mt-1"
+            onClick={() => navigate("/create-password")}
+          >
+            Criar senha de acesso
+          </Button>
         </CardFooter>
       </Card>
 

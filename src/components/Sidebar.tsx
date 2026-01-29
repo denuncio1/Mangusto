@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { ScrollArea } from "@/components/ui/scroll-area";
+// import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import {
   ClipboardList, ListChecks, FolderOpen, HeartPulse, Calculator, GraduationCap,
@@ -12,6 +12,73 @@ import {
 import { Button } from "@/components/ui/button";
 
 const navItems = [
+    {
+      title: "Normas Regulamentadoras (NRs)",
+      icon: BookOpenText,
+      children: [
+        { title: "NR-1 - Disposições Gerais e GRO", href: "/nr/1", icon: FileText },
+        { title: "NR-2 - Inspeção Prévia", href: "/nr/2", icon: FileText },
+        { title: "NR-3 - Embargo e Interdição", href: "/nr/3", icon: FileText },
+        { title: "NR-4 - SESMT", href: "/nr/4", icon: FileText },
+        { title: "NR-5 - CIPA", href: "/nr/5", icon: FileText },
+        { title: "NR-6 - EPI", href: "/nr/6", icon: FileText },
+        { title: "NR-7 - PCMSO", href: "/nr/7", icon: FileText },
+        { title: "NR-8 - Edificações", href: "/nr/8", icon: FileText },
+        { title: "NR-9 - Avaliação e Controle de Exposição", href: "/nr/9", icon: FileText },
+        { title: "NR-10 - Segurança em Eletricidade", href: "/nr/10", icon: FileText },
+        { title: "NR-11 - Transporte e Movimentação de Materiais", href: "/nr/11", icon: FileText },
+        { title: "NR-12 - Máquinas e Equipamentos", href: "/nr/12", icon: FileText },
+        { title: "NR-13 - Caldeiras e Vasos de Pressão", href: "/nr/13", icon: FileText },
+        { title: "NR-14 - Fornos", href: "/nr/14", icon: FileText },
+        { title: "NR-15 - Atividades Insalubres", href: "/nr/15", icon: FileText },
+        { title: "NR-16 - Atividades Perigosas", href: "/nr/16", icon: FileText },
+        { title: "NR-17 - Ergonomia", href: "/nr/17", icon: FileText },
+        { title: "NR-18 - Construção Civil", href: "/nr/18", icon: FileText },
+        { title: "NR-19 - Explosivos", href: "/nr/19", icon: FileText },
+        { title: "NR-20 - Inflamáveis e Combustíveis", href: "/nr/20", icon: FileText },
+        { title: "NR-21 - Trabalhos a Céu Aberto", href: "/nr/21", icon: FileText },
+        { title: "NR-22 - Mineração", href: "/nr/22", icon: FileText },
+        { title: "NR-23 - Proteção Contra Incêndios", href: "/nr/23", icon: FileText },
+        { title: "NR-24 - Condições Sanitárias", href: "/nr/24", icon: FileText },
+        { title: "NR-25 - Resíduos Industriais", href: "/nr/25", icon: FileText },
+        { title: "NR-26 - Sinalização de Segurança", href: "/nr/26", icon: FileText },
+        { title: "NR-27 - Registro Profissional", href: "/nr/27", icon: FileText },
+        { title: "NR-28 - Fiscalização e Penalidades", href: "/nr/28", icon: FileText },
+        { title: "NR-29 - Portos", href: "/nr/29", icon: FileText },
+        { title: "NR-30 - Aquaviários", href: "/nr/30", icon: FileText },
+        { title: "NR-31 - Rural", href: "/nr/31", icon: FileText },
+        { title: "NR-32 - Saúde em Serviços de Saúde", href: "/nr/32", icon: FileText },
+        { title: "NR-33 - Espaço Confinado", href: "/nr/33", icon: FileText },
+        { title: "NR-34 - Indústria Naval", href: "/nr/34", icon: FileText },
+        { title: "NR-35 - Trabalho em Altura", href: "/nr/35", icon: FileText },
+        { title: "NR-36 - Frigoríficos", href: "/nr/36", icon: FileText },
+        { title: "NR-37 - Plataformas de Petróleo", href: "/nr/37", icon: FileText },
+        { title: "NR-38 - Limpeza Urbana", href: "/nr/38", icon: FileText },
+      ],
+    },
+  {
+    title: "Gestão de EPI/EPC",
+    icon: ShieldAlert,
+    children: [
+      {
+        title: "Controle de Estoque",
+        href: "/epi-epc-management/stock-control",
+        icon: ListChecks,
+      },
+      {
+        title: "Validade e Rastreabilidade",
+        href: "/epi-epc-management/validity-traceability",
+        icon: History,
+      },
+      {
+        title: "Ficha de EPI",
+        href: "/epi-epc-management/epi-sheet",
+        icon: FileText,
+      },
+    ],
+  },
+  // ...existing code...
+// ...existing code...
     {
       title: "Comunicação de Acidente de Trabalho (S-2210)",
       icon: ShieldAlert,
@@ -88,6 +155,16 @@ const navItems = [
     title: "Dashboard Gerencial",
     href: "/dashboard",
     icon: LayoutDashboard,
+  },
+  {
+    title: "Gestão de Funcionários",
+    href: "/sst-lists/funcionario",
+    icon: Users,
+  },
+  {
+    title: "Cadastrar Funcionário",
+    href: "/funcionario-form",
+    icon: ListPlus,
   },
   {
     title: "Dashboard ESG – Social",
@@ -301,7 +378,7 @@ export const Sidebar = () => {
   };
 
   return (
-    <ScrollArea className="h-full py-4">
+    <div className="h-full py-4 overflow-auto">
       <div className="px-3 py-2">
         <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight text-sidebar-foreground">
           Menu Principal
@@ -311,67 +388,61 @@ export const Sidebar = () => {
             const itemKey = item.href || item.title || idx;
             return (
               <React.Fragment key={itemKey}>
-              <div className="flex items-center justify-between">
-                <NavLink
-                  to={item.href}
-                  className={({ isActive }) =>
-                    cn(
-                      "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex-grow",
-                      isActive
-                        ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                        : "text-sidebar-foreground"
-                    )
-                  }
-                  onClick={(e) => {
-                    if (item.children) {
-                      e.preventDefault();
-                      toggleOpen(item.href);
+                <div className="flex items-center justify-between">
+                  <NavLink
+                    to={item.href}
+                    className={({ isActive }) =>
+                      cn(
+                        "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                        isActive
+                          ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                          : "text-sidebar-foreground"
+                      )
                     }
-                  }}
-                >
-                  {item.icon && <item.icon className="h-4 w-4" />}
-                  {item.title}
-                </NavLink>
-                {item.children && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => toggleOpen(item.href)}
                   >
-                    <ChevronDown className={cn("h-4 w-4 transition-transform", openItems[item.href] && "rotate-180")}/>
-                  </Button>
-                )}
-              </div>
-              {openItems[item.href] && item.children && (
-                <div className="ml-6 space-y-1">
-                  {item.children.map((child, cidx) => {
-                    const childKey = child.href || child.title || `${itemKey}-child-${cidx}`;
-                    return (
-                      <NavLink
-                        key={childKey}
-                        to={child.href}
-                      className={({ isActive }) =>
-                        cn(
-                          "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                          isActive
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                            : "text-sidebar-foreground"
-                        )
-                      }
+                    {item.icon && <item.icon className="h-4 w-4" />}
+                    {item.title}
+                  </NavLink>
+                  {item.children && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={() => toggleOpen(item.href)}
                     >
-                        {child.icon && <child.icon className="h-4 w-4" />}
-                        {child.title}
-                      </NavLink>
-                    );
-                  })}
+                      <ChevronDown className={cn("h-4 w-4 transition-transform", openItems[item.href] && "rotate-180")}/>
+                    </Button>
+                  )}
                 </div>
-              )}
-            </React.Fragment>
+                {openItems[item.href] && item.children && (
+                  <div className="ml-6 space-y-1">
+                    {item.children.map((child, cidx) => {
+                      const childKey = child.href || child.title || `${itemKey}-child-${cidx}`;
+                      return (
+                        <NavLink
+                          key={childKey}
+                          to={child.href}
+                          className={({ isActive }) =>
+                            cn(
+                              "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                              isActive
+                                ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                                : "text-sidebar-foreground"
+                            )
+                          }
+                        >
+                          {child.icon && <child.icon className="h-4 w-4" />}
+                          {child.title}
+                        </NavLink>
+                      );
+                    })}
+                  </div>
+                )}
+              </React.Fragment>
             );
           })}
         </div>
       </div>
-    </ScrollArea>
+    </div>
   );
 };

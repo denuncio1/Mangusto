@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 
 interface CidAutocompleteProps {
   value: string;
-  onChange: (value: string) => void;
+  onChange: (value: string, cidObj?: any) => void;
 }
 
 const CidAutocomplete: React.FC<CidAutocompleteProps> = ({ value, onChange }) => {
@@ -25,7 +25,7 @@ const CidAutocomplete: React.FC<CidAutocompleteProps> = ({ value, onChange }) =>
   }
 
   function handleSelect(cid: any) {
-    onChange(cid.codigo);
+    onChange(cid.codigo, cid);
     setShow(false);
   }
 

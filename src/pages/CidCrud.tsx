@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { fetchCids } from "@/lib/supabaseCids";
+import CidAutocomplete from "@/components/CidAutocomplete";
 
 const initial = { codcid: "", descricao: "", capitulo: "", grupo: "", categoria: "", natureza_lesao: "", lateralidade: "", tipo_acidente: "", nexo_causal: false, observacao: "" };
 
@@ -9,12 +11,27 @@ const CidCrud = () => {
   const [cids, setCids] = useState<any[]>([]);
   const [form, setForm] = useState<any>({ ...initial });
   const [editId, setEditId] = useState<number|null>(null);
+  const [cidOptions, setCidOptions] = useState<any[]>([]);
+  const [cidSelecionado, setCidSelecionado] = useState("");
+  const [isOutroCid, setIsOutroCid] = useState(false);
 
   async function load() {
     const { data } = await supabase.from("cids").select("*").order("codcid");
     setCids(data || []);
   }
   useEffect(() => { load(); }, []);
+
+  useEffect(() => {
+    async function loadCids() {
+      try {
+        const cids = await fetchCids("");
+        setCidOptions(cids);
+      } catch (err) {
+        setCidOptions([]);
+      }
+    }
+    loadCids();
+  }, []);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value, type } = e.target;
@@ -58,7 +75,10 @@ const CidCrud = () => {
     <div className="max-w-3xl mx-auto mt-8">
       <h2 className="text-lg font-bold mb-4">Cadastro de CID-10</h2>
       <form onSubmit={editId ? handleUpdate : handleAdd} className="grid grid-cols-2 gap-2 mb-4">
-        <Input name="codcid" value={form.codcid} onChange={handleChange} placeholder="Código CID" required />
+        <div className="col-span-2">
+          <label className="block mb-1">CID-10 (Tabela 17 eSocial)</label>
+          <CidAutocomplete value={form.codcid} onChange={(val, cidObj) => setForm(f => ({ ...f, codcid: val, descricao: cidObj?.descricao || f.descricao }))} />
+        </div>
         <Input name="descricao" value={form.descricao} onChange={handleChange} placeholder="Descrição" required />
         <Input name="capitulo" value={form.capitulo} onChange={handleChange} placeholder="Capítulo" />
         <Input name="grupo" value={form.grupo} onChange={handleChange} placeholder="Grupo" />

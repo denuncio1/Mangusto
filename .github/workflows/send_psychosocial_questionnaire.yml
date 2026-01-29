@@ -2,7 +2,7 @@ name: Send Psychosocial Questionnaire
 
 on:
   schedule:
-    - cron: '0 9 1 1,7 *' # 1º de janeiro e 1º de julho às 09:00 UTC (ajuste conforme necessário)
+    - cron: '0 9 1 1,7 *' # 1º de janeiro e 1º de julho às 09:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -17,7 +17,5 @@ jobs:
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
           EMAIL_API_KEY: ${{ secrets.EMAIL_API_KEY }}
         run: |
-          # Exemplo: Enviar e-mail para todos os funcionários usando uma API de e-mail
-          # Substitua pelo seu script real de envio
           echo "Disparar questionário psicossocial para todos os funcionários"
           # node scripts/send_psychosocial_questionnaire.js

@@ -1,3 +1,7 @@
+import NRPage from "./pages/NRPage";
+import GheList from "./pages/GheList";
+// import GheForm from "./pages/GheForm"; // Removido para evitar conflito de casing
+import FuncionarioForm from "./pages/FuncionarioForm";
 import ESGDashboard from "./pages/ESGDashboard";
 import ComplianceAssistantPage from "./pages/ComplianceAssistant";
   <Route path="compliance-assistant" element={<ComplianceAssistantPage />} />
@@ -16,6 +20,7 @@ import VersionedDocuments from "@/pages/VersionedDocuments";
 import EmergencyPlan from "@/pages/EmergencyPlan";
 import RiskReviewReminder from "@/pages/RiskReviewReminder";
 import { Toaster } from "@/components/ui/toaster";
+import SupabaseTableCheck from "@/components/SupabaseTableCheck";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -28,8 +33,14 @@ import { Login } from "./pages/Login";
 import ResetPassword from "@/pages/ResetPassword";
 import LegislacaoTextoIntegral from "./pages/LegislacaoTextoIntegral";
 import OccupationalAccidentQuickInput from "./pages/OccupationalAccidentQuickInput";
+import CATList from "./pages/CATList";
+import { GHEList, RiscoList } from "./pages/SSTLists";
+import GHEForm from "./pages/GHEForm";
+import RiscoForm from "./pages/RiscoForm";
+import CATForm from "./pages/CATForm";
 
 // Import all pages
+import FuncionarioList from "./pages/FuncionarioList";
 import Dashboard from "./pages/Dashboard";
 import OccupationalRiskInventory from "./pages/OccupationalRiskInventory";
 import IntegratedActionPlan from "./pages/IntegratedActionPlan";
@@ -47,6 +58,12 @@ import PsychosocialFocus from "./pages/PsychosocialFocus";
 import ServiceOrders from "./pages/ServiceOrders";
 import CIPAIntegration from "./pages/CIPAIntegration";
 import UpdateHistory from "./pages/UpdateHistory";
+
+// Gestão de EPI/EPC
+import EPIEPCManagement from "./pages/EPIEPCManagement/EPIEPCManagement";
+import EPIStockControl from "./pages/EPIEPCManagement/EPIStockControl";
+import EPIValidityTraceability from "./pages/EPIEPCManagement/EPIValidityTraceability";
+import EPISheet from "./pages/EPIEPCManagement/EPISheet";
 
 // Import sub-pages
 import HazardRiskRegistration from "@/pages/OccupationalRiskInventory/HazardRiskRegistration.tsx";
@@ -70,6 +87,7 @@ import TrainingTracks from "@/pages/TrainingAwareness/TrainingTracks";
 import ActionRegistration from "@/pages/TrainingAwareness/ActionRegistration";
 import { HarassmentPrevention } from "@/pages/CIPAIntegration/HarassmentPrevention";
 import { ConsultationParticipationChannel } from "@/pages/CIPAIntegration/ConsultationParticipationChannel";
+import CreatePassword from "@/pages/CreatePassword";
 
 const queryClient = new QueryClient();
 
@@ -77,6 +95,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <SupabaseTableCheck />
         <AppRoutes />
         <Toaster />
         <Sonner />
@@ -86,6 +105,7 @@ function App() {
 }
 
 function AppRoutes() {
+  // ...
   const { session, loading } = useAuth();
 
   if (loading) {
@@ -99,8 +119,14 @@ function AppRoutes() {
 
   return (
     <Routes>
+      {/* Rotas de GHE */}
+      <Route path="/ghe-list" element={<GheList />} />
+      <Route path="/ghe-form" element={<GHEForm />} />
       <Route path="/login" element={!session ? <Login /> : <Navigate to="/" replace />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/create-password" element={<CreatePassword />} />
+      <Route path="/sst-lists/funcionario" element={<FuncionarioList />} />
+      <Route path="/funcionario-form" element={<FuncionarioForm />} />
 
       <Route path="/cipa-integration/harassment-prevention" element={<HarassmentPrevention />} />
       <Route path="/LegislacaoTextoIntegral" element={<LegislacaoTextoIntegral />} />
@@ -115,9 +141,7 @@ function AppRoutes() {
 
       <Route 
         path="/" 
-        element={
-          session ? <MainLayout /> : <Navigate to="/login" replace />
-        }
+        element={<MainLayout />}
       >
         <Route index element={<Dashboard />} />
         <Route path="dashboard" element={<Dashboard />} />
@@ -165,6 +189,23 @@ function AppRoutes() {
         <Route path="third-party/ThirdPartyExchange" element={<ThirdPartyExchange />} />
         <Route path="third-party/ThirdPartyConsolidation" element={<ThirdPartyConsolidation />} />
         <Route path="/occupational-accident-quick-input" element={<OccupationalAccidentQuickInput />} />
+        <Route path="/cat-list" element={<CATList />} />
+        <Route path="ghe-list" element={<GHEList />} />
+        <Route path="risco-list" element={<RiscoList />} />
+        <Route path="ghe-form" element={<GHEForm />} />
+        <Route path="risco-form" element={<RiscoForm />} />
+        <Route path="cat-form" element={<CATForm />} />
+
+        {/* Gestão de EPI/EPC */}
+        <Route path="epi-epc-management" element={<EPIEPCManagement />} />
+        <Route path="epi-epc-management/stock-control" element={<EPIStockControl />} />
+        <Route path="epi-epc-management/validity-traceability" element={<EPIValidityTraceability />} />
+        <Route path="epi-epc-management/epi-sheet" element={<EPISheet />} />
+
+        {/* Rotas para cada NR (NR-1 a NR-38) */}
+        {Array.from({ length: 38 }, (_, i) => (
+          <Route key={`nr-${i+1}`} path={`nr/${i+1}`} element={<NRPage nrNumber={i+1} />} />
+        ))}
       </Route>
 
       <Route path="*" element={<NotFound />} />
