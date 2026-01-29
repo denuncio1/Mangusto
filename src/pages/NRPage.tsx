@@ -76,3 +76,6 @@ const NRPage: React.FC<NRPageProps> = ({ nrNumber }) => {
       )}
     </div>
   );
+}
+
+export default NRPage;
