@@ -52,7 +52,7 @@ const NRPage: React.FC<NRPageProps> = ({ nrNumber }) => {
   const nr = nrNumber || Number(params["*"].split("/").pop());
   const data = NR_DATA[nr];
   if (!data) {
-
     return (
-
       <div className="max-w-4xl mx-auto p-6">
+        <p>NR não encontrada.</p>
+      </div>
