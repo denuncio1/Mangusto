@@ -1,7 +1,7 @@
 import React from "react";
 import PsychosocialReportForm from "@/components/PsychosocialReportForm";
 import { BackToMenuButton } from "@/components/BackToMenuButton";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth.tsx";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { Button } from "@/components/ui/button";

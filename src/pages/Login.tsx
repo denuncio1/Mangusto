@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth.tsx";
 import { BackToMenuButton } from "@/components/BackToMenuButton";
 import { supabase } from "@/lib/supabaseClient";
 import { Button } from "@/components/ui/button";

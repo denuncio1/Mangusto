@@ -1,6 +1,6 @@
 import { getAllDocumentos } from './documentService';
 import { Card } from '@/components/ui/card';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth.tsx';
 import { pode } from './documentPermissions';
 import { DocumentVersionPanel } from './DocumentVersionPanel';
 

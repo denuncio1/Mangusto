@@ -18,7 +18,10 @@ const MainLayout = () => {
               <MenuIcon className="h-6 w-6" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-64 p-0">
+          <SheetContent
+            side="left"
+            className="p-0 w-full max-w-full sm:w-80 sm:max-w-sm"
+          >
             <Sidebar />
           </SheetContent>
         </Sheet>

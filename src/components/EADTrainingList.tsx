@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth.tsx";
 import { supabase } from "@/lib/supabaseClient";
 
 export default function EADTrainingList({ onScrollToForm }: { onScrollToForm?: () => void }) {

@@ -1,0 +1,36 @@
+{
+  "normas": [
+    {
+      "id": "1",
+      "codigo": "NR-01",
+      "titulo": "Disposições Gerais",
+      "versao": "2025",
+      "data_atualizacao": "2025-01-01",
+      "texto_integra": "Texto integral da NR-01...",
+      "texto_resumido": "Resumo operacional da NR-01...",
+      "tags": ["geral", "introdução"]
+    },
+    {
+      "id": "2",
+      "codigo": "NR-12",
+      "titulo": "Segurança no Trabalho em Máquinas e Equipamentos",
+      "versao": "2025",
+      "data_atualizacao": "2025-01-01",
+      "texto_integra": "Texto integral da NR-12...",
+      "texto_resumido": "Resumo operacional da NR-12...",
+      "tags": ["máquinas", "segurança"]
+    },
+    {
+      "id": "3",
+      "codigo": "NR-13",
+      "titulo": "Caldeiras, Vasos de Pressão e Tubulações",
+      "versao": "2025",
+      "data_atualizacao": "2025-01-01",
+      "texto_integra": "Texto integral da NR-13...",
+      "texto_resumido": "Resumo operacional da NR-13...",
+      "tags": ["vasos", "caldeiras"]
+    }
+  ],
+  "favoritos": [],
+  "anotacoes": {}
+}

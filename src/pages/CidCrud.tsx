@@ -73,6 +73,9 @@ const CidCrud = () => {
 
   return (
     <div className="max-w-3xl mx-auto mt-8">
+      <Button className="mb-4" variant="outline" onClick={() => window.history.back()}>
+        Voltar
+      </Button>
       <h2 className="text-lg font-bold mb-4">Cadastro de CID-10</h2>
       <form onSubmit={editId ? handleUpdate : handleAdd} className="grid grid-cols-2 gap-2 mb-4">
         <div className="col-span-2">

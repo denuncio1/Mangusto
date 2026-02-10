@@ -45,6 +45,9 @@ const AgentCrud = () => {
 
   return (
     <div className="max-w-xl mx-auto mt-8">
+      <Button className="mb-4" variant="outline" onClick={() => window.history.back()}>
+        Voltar
+      </Button>
       <h2 className="text-lg font-bold mb-4">Cadastro de Agentes Causadores</h2>
       <form onSubmit={handleAdd} className="flex gap-2 mb-4">
         <Input value={nome} onChange={e => setNome(e.target.value)} placeholder="Nome do agente" required />

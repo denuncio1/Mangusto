@@ -1,0 +1,36 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Auditoria e Evidências",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/evidencias/upload": {
+      "post": {
+        "summary": "Upload de evidência (arquivo)",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "auditoriaId": { "type": "string" },
+                  "itemId": { "type": "string" },
+                  "file": { "type": "string", "format": "binary" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Arquivo salvo", "content": { "application/json": { "schema": { "type": "object", "properties": { "url": { "type": "string" } } } } } } }
+      }
+    },
+    "/auditorias/{id}/relatorio-pdf": {
+      "get": {
+        "summary": "Gerar e baixar relatório PDF da auditoria",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "PDF gerado", "content": { "application/pdf": {} } } }
+      }
+    }
+  }
+}

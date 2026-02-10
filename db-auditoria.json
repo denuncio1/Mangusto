@@ -1,0 +1,27 @@
+{
+  "checklists": [
+    {
+      "id": "1",
+      "nr": "NR-12",
+      "nome": "Auditoria NR-12 – Máquinas",
+      "itens": [
+        { "id": "1.1", "pergunta": "Máquinas possuem proteção adequada?", "tipo": "conforme_nao_conforme_na" },
+        { "id": "1.2", "pergunta": "Há registro de manutenção preventiva?", "tipo": "conforme_nao_conforme_na" }
+      ],
+      "customizavel": true
+    },
+    {
+      "id": "2",
+      "nr": "NR-18",
+      "nome": "Auditoria NR-18 – Obra",
+      "itens": [
+        { "id": "2.1", "pergunta": "Canteiro de obras sinalizado?", "tipo": "conforme_nao_conforme_na" },
+        { "id": "2.2", "pergunta": "EPI obrigatório fornecido?", "tipo": "conforme_nao_conforme_na" }
+      ],
+      "customizavel": true
+    }
+  ],
+  "auditorias": [],
+  "evidencias": [],
+  "relatorios": []
+}
