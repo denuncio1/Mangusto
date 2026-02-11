@@ -40,3 +40,4 @@ export default function EsgDashboard() {
     </div>
   );
 }
+// Arquivo removido para evitar conflito de case e duplicidade no deploy Vercel.

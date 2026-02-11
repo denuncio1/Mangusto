@@ -28,15 +28,19 @@ const UploadDocumentOCR = () => {
     setLoading(false);
   };
 
+  const handleBack = () => window.history.back();
   return (
-    <div>
-      <h1>Upload de Documentos com IA (OCR)</h1>
+    <div className="max-w-lg mx-auto mt-10 bg-white rounded-2xl shadow-2xl p-8 text-gray-900 font-sans border border-neutral-200 flex flex-col gap-6">
+      <div className="flex items-center justify-between">
+        <div className="text-2xl font-bold">Upload de Documentos com IA (OCR)</div>
+        <button onClick={handleBack} className="bg-neutral-800 hover:bg-neutral-700 text-white font-semibold py-2 px-4 rounded-lg shadow transition">← Voltar</button>
+      </div>
       <input type="file" accept="application/pdf,image/*" onChange={handleFileChange} />
-      <button onClick={handleUpload} disabled={!file || loading} style={{ marginLeft: 8 }}>
+      <button onClick={handleUpload} disabled={!file || loading} className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition mt-2">
         {loading ? "Processando..." : "Enviar e Validar"}
       </button>
       <div style={{ marginTop: 16 }}>
-        {status && <p>{status}</p>}
+        {status && <p className="text-green-700 font-semibold">{status}</p>}
         {ocrResult && (
           <div>
             <h3>Resultado OCR:</h3>

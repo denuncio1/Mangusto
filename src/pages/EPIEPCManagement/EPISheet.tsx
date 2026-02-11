@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFichaEPI } from './useFichaEPI';
+import { getRiscos, Risco } from '../../lib/supabaseRisco';
 
 const EPISheet: React.FC = () => {
   const { funcionarios, entregas, epis, loading, error } = useFichaEPI();
   const [selected, setSelected] = useState<string>('');
+  const [riscos, setRiscos] = useState<Risco[]>([]);
+  useEffect(() => {
+    getRiscos().then(setRiscos).catch(() => {});
+  }, []);
 
   const entregasFuncionario = entregas.filter((e: any) => String(e.id_funcionario) === selected);
 
@@ -42,6 +47,7 @@ const EPISheet: React.FC = () => {
                       <tr>
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">EPI/EPC</th>
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Tipo</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Risco (PGR)</th>
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Data Entrega</th>
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Validade</th>
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Quantidade</th>
@@ -51,10 +57,12 @@ const EPISheet: React.FC = () => {
                     <tbody>
                       {entregasFuncionario.map((e: any) => {
                         const epi = epis.find((ep: any) => ep.id === e.id_epi_epc);
+                        const risco = riscos.find(r => r.id === e.id_risco);
                         return (
                           <tr key={e.id} className="border-b last:border-b-0 hover:bg-gray-50">
                             <td className="px-4 py-2">{epi?.nome || e.id_epi_epc}</td>
                             <td className="px-4 py-2">{epi?.tipo || ''}</td>
+                            <td className="px-4 py-2">{risco ? risco.agente : '-'}</td>
                             <td className="px-4 py-2">{e.data_entrega}</td>
                             <td className="px-4 py-2">{e.validade || '-'}</td>
                             <td className="px-4 py-2">{e.quantidade}</td>

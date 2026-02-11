@@ -42,15 +42,19 @@ const GestorTerceirosPanel = () => {
     setStatusMsg('Acesso liberado pelo gestor.');
   };
 
+  const handleBack = () => window.history.back();
   return (
-    <div>
-      <h1>Painel do Gestor de Terceiros</h1>
+    <div className="max-w-lg mx-auto mt-10 bg-white rounded-2xl shadow-2xl p-8 text-gray-900 font-sans border border-neutral-200 flex flex-col gap-6">
+      <div className="flex items-center justify-between">
+        <div className="text-2xl font-bold">Painel do Gestor de Terceiros</div>
+        <button onClick={handleBack} className="bg-neutral-800 hover:bg-neutral-700 text-white font-semibold py-2 px-4 rounded-lg shadow transition">← Voltar</button>
+      </div>
       <div>
-        <h3>Lista de Terceiros</h3>
-        <ul>
+        <h3 className="text-lg font-semibold mb-2">Lista de Terceiros</h3>
+        <ul className="space-y-2">
           {terceiros.map(t => (
             <li key={t.id}>
-              <button onClick={() => handleSelectTerceiro(t)} style={{ marginRight: 8 }}>
+              <button onClick={() => handleSelectTerceiro(t)} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition">
                 {t.nome} ({t.cpf})
               </button>
             </li>
@@ -58,19 +62,21 @@ const GestorTerceirosPanel = () => {
         </ul>
       </div>
       {selectedTerceiro && (
-        <div style={{ marginTop: 24 }}>
-          <h3>Terceiro Selecionado:</h3>
+        <div className="mt-6">
+          <h3 className="text-lg font-semibold mb-2">Terceiro Selecionado:</h3>
           <p>Nome: {selectedTerceiro.nome}</p>
           <p>CPF: {selectedTerceiro.cpf}</p>
-          <h4>Documentos:</h4>
-          <ul>
+          <h4 className="mt-4 mb-2">Documentos:</h4>
+          <ul className="space-y-1">
             {documentos.map((doc, idx) => (
               <li key={idx}>{doc.tipo}: <b>{doc.status}</b></li>
             ))}
           </ul>
-          <button onClick={handleBloquear} style={{ marginRight: 8 }}>Bloquear Acesso</button>
-          <button onClick={handleLiberar}>Liberar Acesso</button>
-          {statusMsg && <p style={{ marginTop: 8 }}>{statusMsg}</p>}
+          <div className="mt-4 flex gap-4">
+            <button onClick={handleBloquear} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow transition">Bloquear Acesso</button>
+            <button onClick={handleLiberar} className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow transition">Liberar Acesso</button>
+          </div>
+          {statusMsg && <p className="mt-4 text-yellow-600 font-semibold">{statusMsg}</p>}
         </div>
       )}
     </div>

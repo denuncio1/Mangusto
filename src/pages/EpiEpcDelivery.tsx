@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
+import { getRiscos, Risco } from "../lib/supabaseRisco";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
 
 interface Delivery {
   id: number;
@@ -12,24 +15,37 @@ interface Delivery {
   dataEntrega: string;
   validade: string;
   ca: string;
+  idRisco?: number;
+  riscoNome?: string;
 }
+
 
 const initialDeliveries: Delivery[] = [];
 
 export default function EpiEpcDelivery() {
   const [deliveries, setDeliveries] = useState<Delivery[]>(initialDeliveries);
-  const [form, setForm] = useState<Omit<Delivery, "id">>({ colaborador: "", epiEpc: "", quantidade: 1, dataEntrega: "", validade: "", ca: "" });
+  const [form, setForm] = useState<Omit<Delivery, "id" | "riscoNome">>({ colaborador: "", epiEpc: "", quantidade: 1, dataEntrega: "", validade: "", ca: "", idRisco: undefined });
+  const [riscos, setRiscos] = useState<Risco[]>([]);
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  useEffect(() => {
+    getRiscos().then(setRiscos).catch(() => {});
+  }, []);
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
+  function handleRiscoChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    setForm({ ...form, idRisco: e.target.value ? Number(e.target.value) : undefined });
+  }
+
   function handleAdd() {
+    const riscoNome = riscos.find(r => r.id === form.idRisco)?.agente || "";
     setDeliveries([
       ...deliveries,
-      { ...form, id: Date.now() },
+      { ...form, id: Date.now(), riscoNome },
     ]);
-    setForm({ colaborador: "", epiEpc: "", quantidade: 1, dataEntrega: "", validade: "", ca: "" });
+    setForm({ colaborador: "", epiEpc: "", quantidade: 1, dataEntrega: "", validade: "", ca: "", idRisco: undefined });
   }
 
   return (
@@ -53,6 +69,13 @@ export default function EpiEpcDelivery() {
             <Input id="quantidade" name="quantidade" value={form.quantidade} onChange={handleChange} required type="number" min={1} />
             <Label htmlFor="dataEntrega">Data de Entrega</Label>
             <Input id="dataEntrega" name="dataEntrega" value={form.dataEntrega} onChange={handleChange} required type="date" />
+            <Label htmlFor="idRisco">Risco do PGR</Label>
+            <select id="idRisco" name="idRisco" value={form.idRisco || ""} onChange={handleRiscoChange} className="border rounded px-2 py-1">
+              <option value="">Selecione o risco</option>
+              {riscos.map(r => (
+                <option key={r.id} value={r.id}>{r.agente}</option>
+              ))}
+            </select>
             <Button onClick={handleAdd}>Registrar Entrega</Button>
           </div>
         </CardContent>
@@ -71,6 +94,7 @@ export default function EpiEpcDelivery() {
                 <th className="border px-2 py-1">Validade</th>
                 <th className="border px-2 py-1">Qtd</th>
                 <th className="border px-2 py-1">Data Entrega</th>
+                <th className="border px-2 py-1">Risco (PGR)</th>
               </tr>
             </thead>
             <tbody>
@@ -85,6 +109,7 @@ export default function EpiEpcDelivery() {
                     <td className="border px-2 py-1">{item.validade}</td>
                     <td className="border px-2 py-1">{item.quantidade}</td>
                     <td className="border px-2 py-1">{item.dataEntrega}</td>
+                    <td className="border px-2 py-1">{item.riscoNome || '-'}</td>
                   </tr>
                 ))
               )}

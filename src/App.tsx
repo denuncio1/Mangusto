@@ -1,8 +1,23 @@
+import CentralAlertsDashboard from "./components/CentralAlertsDashboard";
+import PortalFornecedor from "./pages/gestao-terceiros/PortalFornecedor";
+import ValidacaoDocumentosIA from "./pages/gestao-terceiros/ValidacaoDocumentosIA";
+import IntegracaoPortaria from "./pages/gestao-terceiros/IntegracaoPortaria";
+import PainelGestorTerceiros from "./pages/gestao-terceiros/PainelGestorTerceiros";
+import React from "react";
 import PainelFinanceiroSST from "./pages/PainelFinanceiroSST";
+import CadastroGHE from "./pages/gho/CadastroGHE";
+import InventarioRiscos360 from "./pages/gho/InventarioRiscos360";
+import PlanilhasMedicoes from "./pages/gho/PlanilhasMedicoes";
+import IntegracaoLaboratorios from "./pages/gho/IntegracaoLaboratorios";
+import GeracaoPGR from "./pages/gho/GeracaoPGR";
+import Historico20Anos from "./pages/gho/Historico20Anos";
+import ModoFiscalizacao from "./pages/gho/ModoFiscalizacao";
+import PortalAuditoria from "./pages/gho/PortalAuditoria";
+import LivroInspecaoDigital from "./pages/gho/LivroInspecaoDigital";
 import GestaoFapRatNtep from "./pages/GestaoFapRatNtep";
 import ContestarNexo from "./pages/ContestarNexo";
 import BiPreditivo from "./pages/BiPreditivo";
-import EsgDashboard from "./pages/EsgDashboard";
+import ESGDashboard from "./pages/ESGDashboard";
 import IntegracaoCMMSManutencao from "./pages/IntegracaoCMMSManutencao";
 import RotaInspecaoInteligente from "./pages/RotaInspecaoInteligente";
 import TelemetriaMaquinasIoT from "./pages/TelemetriaMaquinasIoT";
@@ -59,12 +74,11 @@ import AccidentPredictionPage from "./pages/AccidentPrediction";
 import PsychosocialReportAdminPage from "./pages/PsychosocialReportAdmin";
 import ThirdPartyExchange from "./pages/third-party/ThirdPartyExchange";
 import ThirdPartyConsolidation from "./pages/third-party/ThirdPartyConsolidation";
-import PortalFornecedor from "./modules/thirdPartyManagement/PortalFornecedor";
 import UploadDocumentOCR from "./modules/thirdPartyManagement/UploadDocumentOCR";
 import GestorTerceirosPanel from "./modules/thirdPartyManagement/GestorTerceirosPanel";
 import AccessControlIntegration from "./modules/thirdPartyManagement/AccessControlIntegration";
 import BlockedAccessHistory from "./modules/thirdPartyManagement/BlockedAccessHistory";
-import React from "react";
+// import React from "react";
 import PedagogicalProjectPage from "./pages/pedagogical-project";
 import EADTrainingsPage from "./pages/ead-trainings";
 import CompanyProfile from "./components/CompanyProfile";
@@ -113,10 +127,16 @@ import PsychosocialFocus from "./pages/PsychosocialFocus";
 import ServiceOrders from "./pages/ServiceOrders";
 import CIPAIntegration from "./pages/CIPAIntegration";
 import UpdateHistory from "./pages/UpdateHistory";
+import AcademiaSST from "./pages/AcademiaSST";
+import AcademiaSST_MatrizPolivalencia from "./pages/AcademiaSST_MatrizPolivalencia2";
+import AcademiaSST_LMS from "./pages/AcademiaSST_LMS";
+import AcademiaSST_Simulados from "./pages/AcademiaSST_Simulados";
+import AcademiaSST_Certificados from "./pages/AcademiaSST_Certificados";
 
 // Gestão de EPI/EPC
 import EpiEpcManagement from "./pages/EpiEpcManagement";
 import EpiEpcDelivery from "./pages/EpiEpcDelivery";
+import ComportamentalDashboard from "./pages/ComportamentalDashboard";
 
 // Import sub-pages
 import HazardRiskRegistration from "@/pages/OccupationalRiskInventory/HazardRiskRegistration.tsx";
@@ -174,16 +194,99 @@ function AppRoutes() {
     );
   }
 
+  // SafePlay real pages
+  const SafePlayHome = React.lazy(() => import("./pages/safeplay/SafePlayHome"));
+  const SafePlayNearMiss = React.lazy(() => import("./pages/safeplay/SafePlayNearMiss"));
+  const SafePlayRegras = React.lazy(() => import("./pages/safeplay/SafePlayRegras"));
+  const SafePlayConfirmacao = React.lazy(() => import("./pages/safeplay/SafePlayConfirmacao"));
+  const SafePlayBadges = React.lazy(() => import("./pages/safeplay/SafePlayBadges"));
+  const SafePlayLoja = React.lazy(() => import("./pages/safeplay/SafePlayLoja"));
+  const SafePlayRanking = React.lazy(() => import("./pages/safeplay/SafePlayRanking"));
+  const SafePlayDetalhe = React.lazy(() => import("./pages/safeplay/SafePlayDetalhe"));
+  const SafePlayOffline = React.lazy(() => import("./pages/safeplay/SafePlayOffline"));
+  const SafePlayEngajamento = React.lazy(() => import("./pages/safeplay/SafePlayEngajamento"));
+  const SafePlayCultura = React.lazy(() => import("./pages/safeplay/SafePlayCultura"));
+  const InvestigacaoAcidenteHome = () => <div>Investigação de Acidentes</div>;
+  const InvestigacaoArvore = () => <div>Árvore de Causas</div>;
+  const InvestigacaoIshikawa = () => <div>Ishikawa</div>;
+  const Investigacao5Porques = () => <div>5 Porquês</div>;
+  const InvestigacaoPlanoAcao = () => <div>Plano de Ação Integrado</div>;
+  const InvestigacaoLinhaTempo = () => <div>Linha do Tempo</div>;
+  const CatRegistro = () => <div>Registro de CAT</div>;
+  const CatEnvioESocial = () => <div>Envio Direto ao eSocial</div>;
+  const CatSimuladorFap = () => <div>Simulador de Impacto no FAP</div>;
+  const CatAlertaNtep = () => <div>Alerta de NTEP</div>;
+  const CatDossieDefesa = () => <div>Dossiê de Defesa</div>;
+  const DireitoRecusaHome = () => <div>Direito de Recusa (Home)</div>;
+  const DireitoRecusaAcionamento = () => <div>Acionamento do Direito de Recusa</div>;
+  const DireitoRecusaConfirmacao = () => <div>Confirmação e Bloqueio da Atividade</div>;
+  const DireitoRecusaPainelTST = () => <div>Painel do Técnico de Segurança</div>;
+  const DireitoRecusaInspecao = () => <div>Inspeção do Risco</div>;
+  const DireitoRecusaHistorico = () => <div>Histórico e Prova Documental</div>;
+
   return (
-    <Routes>
+    <React.Suspense fallback={<div className="text-center mt-10">Carregando...</div>}>
+      <Routes>
+        {/* Central de Alertas e Pendências */}
+        <Route path="central-alertas" element={<MainLayout />}>
+          <Route index element={<CentralAlertsDashboard />} />
+        </Route>
+      {/* Inteligência de Eventos e Resposta Ágil */}
+      <Route path="inteligencia-eventos" element={<MainLayout />}>
+        {/* SafePlay - Gamificação e Reporte */}
+        <Route path="safeplay" element={<SafePlayHome />} />
+        <Route path="safeplay/near-miss" element={<SafePlayNearMiss />} />
+        <Route path="safeplay/confirmacao" element={<SafePlayConfirmacao />} />
+        <Route path="safeplay/badges" element={<SafePlayBadges />} />
+        <Route path="safeplay/loja" element={<SafePlayLoja />} />
+        <Route path="safeplay/ranking" element={<SafePlayRanking />} />
+        <Route path="safeplay/detalhe/:id" element={<SafePlayDetalhe />} />
+        <Route path="safeplay/offline" element={<SafePlayOffline />} />
+        <Route path="safeplay/engajamento" element={<SafePlayEngajamento />} />
+        <Route path="safeplay/cultura" element={<SafePlayCultura />} />
+        <Route path="safeplay/regras" element={<SafePlayRegras />} />
+        {/* Investigação de Acidentes */}
+        <Route path="investigacao" element={<InvestigacaoAcidenteHome />} />
+        <Route path="investigacao/arvore" element={<InvestigacaoArvore />} />
+        <Route path="investigacao/ishikawa" element={<InvestigacaoIshikawa />} />
+        <Route path="investigacao/5porques" element={<Investigacao5Porques />} />
+        <Route path="investigacao/plano-acao" element={<InvestigacaoPlanoAcao />} />
+        <Route path="investigacao/linha-tempo" element={<InvestigacaoLinhaTempo />} />
+        {/* CAT eSocial */}
+        <Route path="cat" element={<CatRegistro />} />
+        <Route path="cat/envio-esocial" element={<CatEnvioESocial />} />
+        <Route path="cat/simulador-fap" element={<CatSimuladorFap />} />
+        <Route path="cat/alerta-ntep" element={<CatAlertaNtep />} />
+        <Route path="cat/dossie-defesa" element={<CatDossieDefesa />} />
+        {/* Direito de Recusa */}
+        <Route path="recusa" element={<DireitoRecusaHome />} />
+        <Route path="recusa/acionamento" element={<DireitoRecusaAcionamento />} />
+        <Route path="recusa/confirmacao" element={<DireitoRecusaConfirmacao />} />
+        <Route path="recusa/painel-tst" element={<DireitoRecusaPainelTST />} />
+        <Route path="recusa/inspecao" element={<DireitoRecusaInspecao />} />
+        <Route path="recusa/historico" element={<DireitoRecusaHistorico />} />
+      </Route>
       {/* SST Financeira & ESG */}
       <Route path="painel-financeiro-sst" element={<PainelFinanceiroSST />} />
       <Route path="gestao-fap-rat-ntep" element={<GestaoFapRatNtep />} />
       <Route path="contestar-nexo" element={<ContestarNexo />} />
       <Route path="bi-preditivo" element={<BiPreditivo />} />
-      <Route path="esg-dashboard" element={<EsgDashboard />} />
+      <Route path="esg-dashboard" element={<ESGDashboard />} />
+      {/* GHO - Gestão de Higiene Ocupacional e Riscos */}
+      <Route path="gestao-higiene-ocupacional" element={<MainLayout />}>
+        <Route path="cadastro-ghe" element={<CadastroGHE />} />
+        <Route path="inventario-riscos-360" element={<InventarioRiscos360 />} />
+        <Route path="planilhas-medicoes" element={<PlanilhasMedicoes />} />
+        <Route path="integracao-laboratorios" element={<IntegracaoLaboratorios />} />
+        <Route path="geracao-pgr" element={<GeracaoPGR />} />
+        <Route path="historico-20-anos" element={<Historico20Anos />} />
+        <Route path="modo-fiscalizacao" element={<ModoFiscalizacao />} />
+        <Route path="modo-fiscalizacao/portal-auditoria" element={<PortalAuditoria />} />
+        <Route path="modo-fiscalizacao/livro-inspecao" element={<LivroInspecaoDigital />} />
+      </Route>
       {/* SPA principal */}
       <Route path="/" element={<MainLayout />}>
+        <Route path="comportamental" element={<ComportamentalDashboard />} />
         <Route path="dashboard-conformidade-legal" element={<DashboardConformidadeLegal />} />
         {/* Operações e Equipamentos - Checklist de Máquinas (NR-12) */}
         <Route path="operacoes/checklist-maquinas" element={<MaquinasChecklistPage />} />
@@ -249,7 +352,12 @@ function AppRoutes() {
         <Route path="report-automation" element={<ReportAutomation />} />
         <Route path="update-history" element={<UpdateHistory />} />
         <Route path="service-orders" element={<ServiceOrders />} />
-        <Route path="extra-features" element={<ExtraFeatures />} />
+          <Route path="academia-sst" element={<AcademiaSST />} />
+          <Route path="academia-sst/matriz-polivalencia" element={<AcademiaSST_MatrizPolivalencia />} />
+          <Route path="academia-sst/lms" element={<AcademiaSST_LMS />} />
+          <Route path="academia-sst/simulados" element={<AcademiaSST_Simulados />} />
+          <Route path="academia-sst/certificados" element={<AcademiaSST_Certificados />} />
+          <Route path="extra-features" element={<ExtraFeatures />} />
         <Route path="compliance/normas" element={<NormasLive />} />
         <Route path="compliance/auditoria" element={<AuditoriaInterna />} />
         <Route path="compliance/simulados-fiscalizacao" element={<SimuladosFiscalizacao />} />
@@ -285,14 +393,13 @@ function AppRoutes() {
       <Route path="psychosocial-report-admin" element={<PsychosocialReportAdminPage />} />
       <Route path="pedagogical-project" element={<PedagogicalProjectPageWrapper />} />
       <Route path="ava-compliance" element={<AVACompliancePage />} />
-      <Route path="third-party/ThirdPartyExchange" element={<ThirdPartyExchange />} />
-      <Route path="third-party/ThirdPartyConsolidation" element={<ThirdPartyConsolidation />} />
-      <Route path="third-party/portal" element={<PortalFornecedor />} />
-      <Route path="third-party/upload" element={<UploadDocumentOCR />} />
-      <Route path="third-party/manager" element={<GestorTerceirosPanel />} />
-      <Route path="third-party/access-control" element={<AccessControlIntegration />} />
-      <Route path="third-party/access-history" element={<BlockedAccessHistory />} />
+      <Route path="gestao-terceiros/portal-fornecedor" element={<PortalFornecedor />} />
+      <Route path="gestao-terceiros/validacao-documentos-ia" element={<ValidacaoDocumentosIA />} />
+      <Route path="gestao-terceiros/integracao-portaria" element={<IntegracaoPortaria />} />
+      <Route path="gestao-terceiros/painel-gestor" element={<PainelGestorTerceiros />} />
+      <Route path="/epi-epc-management/stock-control" element={<Navigate to="/epi-epc-management" replace />} />
       <Route path="*" element={<NotFound />} />
-    </Routes>
+      </Routes>
+    </React.Suspense>
   );
 }

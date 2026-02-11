@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { fetchDocumentTimeline, addDocumentComment } from "@/lib/versionedDocumentsLogApi";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -20,6 +21,11 @@ const VersionedDocuments = () => {
   const [sortBy, setSortBy] = useState("created_at");
   const [sortDir, setSortDir] = useState("desc");
   const [selected, setSelected] = useState<string[]>([]);
+  const [showDetails, setShowDetails] = useState(false);
+  const [timeline, setTimeline] = useState<any[]>([]);
+  const [comment, setComment] = useState("");
+  const [timelineLoading, setTimelineLoading] = useState(false);
+  const [activeDoc, setActiveDoc] = useState<any>(null);
 
   useEffect(() => { fetchDocs(); }, [refresh, search, filterType, sortBy, sortDir]);
 
@@ -83,6 +89,24 @@ const VersionedDocuments = () => {
       setRefresh(r => !r);
     }
   };
+
+  // Carrega linha do tempo ao selecionar documento
+  async function openDetails(doc: any) {
+    setActiveDoc(doc);
+    setShowDetails(true);
+    setTimelineLoading(true);
+    const data = await fetchDocumentTimeline(doc.id);
+    setTimeline(data);
+    setTimelineLoading(false);
+  }
+
+  async function handleAddComment(e: React.FormEvent) {
+    e.preventDefault();
+    if (!comment.trim() || !activeDoc) return;
+    await addDocumentComment(activeDoc.id, comment, { id: null, email: "usuário atual" });
+    setComment("");
+    openDetails(activeDoc); // reload timeline
+  }
 
   return (
     <div className="space-y-8">
@@ -164,34 +188,73 @@ const VersionedDocuments = () => {
           {docs.length === 0 ? (
             <p className="text-muted-foreground">Nenhum documento registrado ainda.</p>
           ) : (
-            <table className="w-full text-sm">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>Título</th>
-                  <th>Versão</th>
-                  <th>Tipo</th>
-                  <th>Autor</th>
-                  <th>Data</th>
-                  <th>Arquivo</th>
-                </tr>
-              </thead>
-              <tbody>
-                {docs.map((d: any) => (
-                  <tr key={d.id} className="border-b">
-                    <td><input type="checkbox" checked={selected.includes(d.id)} onChange={e=>{
-                      setSelected(sel=>e.target.checked?[...sel,d.id]:sel.filter(i=>i!==d.id));
-                    }} /></td>
-                    <td>{d.title}</td>
-                    <td>{d.version}</td>
-                    <td>{d.doc_type}</td>
-                    <td>{d.created_by || "-"}</td>
-                    <td>{new Date(d.created_at).toLocaleString()}</td>
-                    <td><a href={d.file_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Baixar</a></td>
+            <div className="relative">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Título</th>
+                    <th>Versão</th>
+                    <th>Tipo</th>
+                    <th>Status</th>
+                    <th>Autor</th>
+                    <th>Data</th>
+                    <th>Arquivo</th>
+                    <th></th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {docs.map((d: any) => (
+                    <tr key={d.id} className="border-b">
+                      <td><input type="checkbox" checked={selected.includes(d.id)} onChange={e=>{
+                        setSelected(sel=>e.target.checked?[...sel,d.id]:sel.filter(i=>i!==d.id));
+                      }} /></td>
+                      <td>{d.title}</td>
+                      <td>{d.version}</td>
+                      <td>{d.doc_type}</td>
+                      <td><span className="text-xs px-2 py-1 rounded bg-gray-200">{d.status || "-"}</span></td>
+                      <td>{d.created_by || "-"}</td>
+                      <td>{new Date(d.created_at).toLocaleString()}</td>
+                      <td><a href={d.file_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Baixar</a></td>
+                      <td><Button size="sm" variant="outline" onClick={()=>openDetails(d)}>Detalhes</Button></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {/* Painel lateral de detalhes */}
+              {showDetails && activeDoc && (
+                <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center">
+                  <div className="bg-white dark:bg-zinc-900 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 relative">
+                    <button className="absolute top-2 right-2 text-xl" onClick={()=>setShowDetails(false)}>×</button>
+                    <h2 className="text-2xl font-bold mb-2">{activeDoc.title} <span className="text-xs align-top ml-2 px-2 py-1 rounded bg-gray-200">v{activeDoc.version}</span></h2>
+                    <div className="mb-2 text-sm text-gray-600">Status: <span className="font-semibold">{activeDoc.status || "-"}</span></div>
+                    <div className="mb-2 text-sm text-gray-600">Tipo: {activeDoc.doc_type}</div>
+                    <div className="mb-2 text-sm text-gray-600">Autor: {activeDoc.created_by || "-"}</div>
+                    <div className="mb-2 text-sm text-gray-600">Data: {new Date(activeDoc.created_at).toLocaleString()}</div>
+                    <div className="mb-4 text-sm text-gray-600">Hash: <span className="font-mono text-xs">{activeDoc.hash || "-"}</span></div>
+                    <a href={activeDoc.file_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline mb-4 inline-block">Baixar Arquivo</a>
+                    <hr className="my-4" />
+                    <h3 className="text-lg font-semibold mb-2">Linha do Tempo</h3>
+                    {timelineLoading ? <div>Carregando histórico...</div> : (
+                      <ul className="space-y-2 text-sm max-h-48 overflow-y-auto">
+                        {timeline.length === 0 && <li className="text-gray-400">Nenhum evento registrado.</li>}
+                        {timeline.map((ev, idx) => (
+                          <li key={idx} className="border-b pb-1">
+                            <span className="font-semibold">{ev.event_type}</span> — {ev.user_email || "-"} <span className="text-xs text-gray-500">{new Date(ev.event_time).toLocaleString()}</span>
+                            {ev.details?.comment && <div className="mt-1 italic text-gray-700">Comentário: {ev.details.comment}</div>}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    <form onSubmit={handleAddComment} className="mt-4 flex gap-2">
+                      <Input value={comment} onChange={e=>setComment(e.target.value)} placeholder="Adicionar comentário ou justificativa..." />
+                      <Button type="submit" disabled={!comment.trim()}>Comentar</Button>
+                    </form>
+                  </div>
+                </div>
+              )}
+            </div>
           )}
         </CardContent>
       </Card>

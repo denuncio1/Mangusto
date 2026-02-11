@@ -9,12 +9,135 @@ import {
   ListPlus, FlaskConical, ShieldAlert, ChevronDown, ClipboardType, TrendingUp, CheckCircle,
   FileSignature, ScanText, Share2, SearchCheck, FileQuestion, BarChart3,
   Gauge, Lightbulb, BookOpenText, CalendarCheck, Stethoscope,
-  Wrench, ShieldCheck, BadgeCheck
+  Wrench, ShieldCheck, BadgeCheck, ShoppingCart, AlertTriangle, TreePine
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import MangustoLogo from "./MangustoLogo";
 
 const navItems = [
+  {
+    title: "Central de Alertas e Pendências",
+    icon: AlertTriangle,
+    href: "/central-alertas",
+    description: "Painel centralizado de alertas críticos, pendências e ações integradas.",
+  },
+  {
+    title: "Gestão de Terceiros e Acessos",
+    icon: ShieldAlert,
+    children: [
+      { title: "Painel do Gestor de Terceiros", href: "/gestao-terceiros/painel-gestor", icon: LayoutDashboard },
+      { title: "Portal do Fornecedor", href: "/gestao-terceiros/portal-fornecedor", icon: FolderOpen },
+      { title: "Validação de Documentos via IA (OCR)", href: "/gestao-terceiros/validacao-documentos-ia", icon: ScanText },
+      { title: "Integração com Portaria", href: "/gestao-terceiros/integracao-portaria", icon: Link },
+    ],
+  },
+  {
+    title: "Inteligência de Eventos e Resposta Ágil",
+    icon: Sparkles,
+    children: [
+      {
+        title: "SafePlay (Gamificação e Reporte)",
+        icon: Lightbulb,
+        children: [
+          { title: "Checklist Eletrônico (PGR)", href: "/operacoes/checklist-ptpet", icon: ClipboardList, description: "Checklist eletrônico em campo integrado ao PGR, com fotos, desvios e ações automáticas." },
+          { title: "Home", href: "/inteligencia-eventos/safeplay", icon: LayoutDashboard },
+          { title: "Reporte de Quase-Acidente", href: "/inteligencia-eventos/safeplay/near-miss", icon: AlertTriangle, description: "Reportar quase-acidente com foto, descrição e local. Foco em prevenção e cultura de segurança." },
+          { title: "Confirmação + Gamificação", href: "/inteligencia-eventos/safeplay/confirmacao", icon: CheckCircle },
+          { title: "Meus Badges", href: "/inteligencia-eventos/safeplay/badges", icon: BadgeCheck },
+          { title: "Loja Mangusto", href: "/inteligencia-eventos/safeplay/loja", icon: ShoppingCart },
+          { title: "Ranking de Segurança", href: "/inteligencia-eventos/safeplay/ranking", icon: TrendingUp },
+          { title: "Detalhe do Reporte (TST)", href: "/inteligencia-eventos/safeplay/detalhe/1", icon: FileText },
+          { title: "Modo Offline", href: "/inteligencia-eventos/safeplay/offline", icon: ShieldAlert },
+          { title: "Tela de Engajamento", href: "/inteligencia-eventos/safeplay/engajamento", icon: Users },
+          { title: "Cultura de Segurança", href: "/inteligencia-eventos/safeplay/cultura", icon: HeartPulse },
+        ]
+      },
+      {
+        title: "Investigação de Acidentes",
+        icon: FileQuestion,
+        children: [
+          { title: "Home", href: "/inteligencia-eventos/investigacao", icon: LayoutDashboard },
+          { title: "Árvore de Causas", href: "/inteligencia-eventos/investigacao/arvore", icon: TreePine },
+          { title: "Ishikawa", href: "/inteligencia-eventos/investigacao/ishikawa", icon: Scale },
+          { title: "5 Porquês", href: "/inteligencia-eventos/investigacao/5porques", icon: ListChecks },
+          { title: "Plano de Ação Integrado", href: "/inteligencia-eventos/investigacao/plano-acao", icon: ClipboardList },
+          { title: "Linha do Tempo", href: "/inteligencia-eventos/investigacao/linha-tempo", icon: History },
+        ]
+      },
+      {
+        title: "CAT eSocial",
+        icon: FileSignature,
+        children: [
+          { title: "Registro de CAT", href: "/inteligencia-eventos/cat", icon: FileText },
+          { title: "Envio Direto ao eSocial", href: "/inteligencia-eventos/cat/envio-esocial", icon: Share2 },
+          { title: "Simulador de Impacto no FAP", href: "/inteligencia-eventos/cat/simulador-fap", icon: Calculator },
+          { title: "Alerta de NTEP", href: "/inteligencia-eventos/cat/alerta-ntep", icon: AlertTriangle },
+          { title: "Dossiê de Defesa", href: "/inteligencia-eventos/cat/dossie-defesa", icon: FileText },
+        ]
+      },
+      {
+        title: "Direito de Recusa",
+        icon: ShieldAlert,
+        children: [
+          { title: "Home", href: "/inteligencia-eventos/recusa", icon: LayoutDashboard },
+          { title: "Acionamento do Direito de Recusa", href: "/inteligencia-eventos/recusa/acionamento", icon: AlertTriangle },
+          { title: "Confirmação e Bloqueio da Atividade", href: "/inteligencia-eventos/recusa/confirmacao", icon: CheckCircle },
+          { title: "Painel do Técnico de Segurança", href: "/inteligencia-eventos/recusa/painel-tst", icon: Users },
+          { title: "Inspeção do Risco", href: "/inteligencia-eventos/recusa/inspecao", icon: SearchCheck },
+          { title: "Histórico e Prova Documental", href: "/inteligencia-eventos/recusa/historico", icon: History },
+        ]
+      },
+    ]
+  },
+    {
+      title: "Gestão de Higiene Ocupacional e Riscos (GHO)",
+      icon: FlaskConical,
+      children: [
+        { title: "Cadastro de GHE", href: "/gestao-higiene-ocupacional/cadastro-ghe", icon: Users },
+        { title: "Inventário de Riscos 360°", href: "/gestao-higiene-ocupacional/inventario-riscos-360", icon: ClipboardList },
+        { title: "Planilhas de Medições (Ruído, Calor, Químicos)", href: "/gestao-higiene-ocupacional/planilhas-medicoes", icon: FileText },
+        { title: "Integração com Laboratórios", href: "/gestao-higiene-ocupacional/integracao-laboratorios", icon: Link },
+        { title: "Geração Automática do PGR", href: "/gestao-higiene-ocupacional/geracao-pgr", icon: Sparkles },
+        { title: "Histórico de 20 anos (NR 01)", href: "/gestao-higiene-ocupacional/historico-20-anos", icon: History },
+        { title: "MODO FISCALIZAÇÃO", href: "/gestao-higiene-ocupacional/modo-fiscalizacao", icon: ShieldAlert },
+      ]
+    },
+  {
+    title: "Academia SST (Treinamentos & Matriz)",
+    icon: GraduationCap,
+    children: [
+      {
+        title: "Visão Geral",
+        href: "/academia-sst",
+        icon: GraduationCap,
+        description: "Introdução e visão geral da Academia SST."
+      },
+      {
+        title: "Matriz de Polivalência",
+        href: "/academia-sst/matriz-polivalencia",
+        icon: ListChecks,
+        description: "Controle de quem pode operar o quê (NR-10, 11, 12, 33, 35)."
+      },
+      {
+        title: "LMS Integrado",
+        href: "/academia-sst/lms",
+        icon: BookOpenText,
+        description: "Treinamentos teóricos via vídeo com prova de proficiência."
+      },
+      {
+        title: "Simulados de Emergência (NR-23)",
+        href: "/academia-sst/simulados",
+        icon: FlaskConical,
+        description: "Agendamento e registro de simulados de abandono e brigada."
+      },
+      {
+        title: "Assinatura Digital de Certificados",
+        href: "/academia-sst/certificados",
+        icon: FileSignature,
+        description: "Validação imediata no perfil do colaborador."
+      }
+    ]
+  },
   {
     title: "OPERAÇÕES E EQUIPAMENTOS (NR-10, 11, 12, 13, 18, 35)",
     icon: Wrench,
@@ -79,6 +202,13 @@ const navItems = [
       { title: "Perfil da Empresa", href: "/company-profile", icon: Scale },
       { title: "Gestão de Funcionários", href: "/sst-lists/funcionario", icon: Users },
       { title: "Cadastrar Funcionário", href: "/funcionario-form", icon: ListPlus },
+      { title: "Roteiro de Testes Finais", href: "/Roteiro_Testes_Finais.md", icon: FileText, description: "Guia para testes finais do sistema." },
+      { title: "Checklist de Aceitação do Usuário", href: "/Checklist_Aceitacao_Usuario.md", icon: FileText, description: "Checklist para validação e aceitação do usuário." },
+      { title: "Relatório de Evidências de Conformidade", href: "/Relatorio_Evidencias_Conformidade.md", icon: FileText, description: "Template para registro de evidências de conformidade." },
+      { title: "Enviar Feedback/Evidências", href: "/feedback-evidencias", icon: Sparkles, description: "Formulário automatizado para coleta de feedbacks e evidências." },
+      { title: "Relatório de Feedbacks Coletados", href: "/relatorio-feedbacks", icon: BarChart3, description: "Visualização e exportação dos feedbacks e evidências coletados." },
+      { title: "Guia Integração Power BI", href: "/powerbi_integration_guide.md", icon: BarChart3, description: "Passo a passo para conectar o sistema ao Power BI." },
+      { title: "Cronograma Gantt – Plano de Ação", href: "/plano-acao-gantt", icon: CalendarCheck, description: "Visualização visual e interativa dos planos de ação." },
     ],
   },
   {
@@ -88,6 +218,7 @@ const navItems = [
       { title: "Capacitação e Sensibilização", href: "/training-awareness", icon: GraduationCap },
       { title: "Monitoramento da Saúde (S-2220)", href: "/occupational-exam-form", icon: HeartPulse },
       { title: "Administração de Relatos Psicossociais", href: "/psychosocial-report-admin", icon: HeartPulse },
+      { title: "Gestão Comportamental", href: "/comportamental", icon: Sparkles, description: "Curva de Bradley, diagnóstico de maturidade e projetos de melhoria." },
     ],
   },
   {
@@ -101,17 +232,6 @@ const navItems = [
           { title: "NR 01 - Disposições Gerais", href: "/nr/01", icon: BookOpenText },
           { title: "NR 02 - Inspeção Prévia", href: "/nr/02", icon: BookOpenText },
           { title: "NR 03 - Embargo e Interdição", href: "/nr/03", icon: BookOpenText },
-      {
-        title: "Gestão de Terceiros e Acessos",
-        icon: ShieldAlert,
-        children: [
-          { title: "Portal do Fornecedor", href: "/third-party/portal", icon: FolderOpen },
-          { title: "Upload de Documentos com IA (OCR)", href: "/third-party/upload", icon: ScanText },
-          { title: "Painel do Gestor de Terceiros", href: "/third-party/manager", icon: Users },
-          { title: "Integração com Portaria", href: "/third-party/access-control", icon: Link },
-          { title: "Histórico de Acessos Bloqueados", href: "/third-party/access-history", icon: History },
-        ],
-      },
           { title: "NR 04 - SESMT", href: "/nr/04", icon: BookOpenText },
           { title: "NR 05 - CIPA", href: "/nr/05", icon: BookOpenText },
           { title: "NR 06 - EPI", href: "/nr/06", icon: BookOpenText },
@@ -129,7 +249,7 @@ const navItems = [
           { title: "NR 28 - Fiscalização e Penalidades", href: "/nr/28", icon: BookOpenText },
         ],
       },
-      { title: "Gestão de EPI/EPC", href: "/epi-epc-management/stock-control", icon: ShieldAlert },
+      // { title: "Gestão de EPI/EPC", href: "/epi-epc-management/stock-control", icon: ShieldAlert },
       { title: "Inventário de Riscos Ocupacionais", href: "/occupational-risk-inventory", icon: ClipboardList },
       { title: "Plano de Ação Integrado", href: "/integrated-action-plan", icon: ListChecks },
       { title: "Gestão de Emergências", href: "/emergency-management", icon: BellRing },
